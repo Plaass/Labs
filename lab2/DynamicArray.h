@@ -11,7 +11,7 @@ private:
 public:
     DynamicArray(): arr(nullptr), len(0), buffer_len(0) {};
 
-    explicit DynamicArray(int len): len(len), buffer_len(2*len) {
+    explicit DynamicArray(int & len): len(len), buffer_len(2*len) {
         arr = new T[buffer_len];
     };
     DynamicArray(const DynamicArray<T> & array) {
@@ -35,26 +35,22 @@ public:
     ~DynamicArray() {
         delete[] arr;
     }
-    T & operator[](int index) {
-//        if (index < 0 || index >= len) {
-//            std::cout << "index = " << index << " out of range" << std::endl;
-//            return nullptr;
-//        }
+    T & operator[](int & index) {
         return arr[index];
     }
-    T& at(int index) {
+    T& at(int & index) {
         if (index < 0 || index >= len) {
             throw std::out_of_range("out of range");
         }
         return arr[index];
     }
-    T getT(int index) {
+    T getT(int & index) {
         return arr[index];
     }
     int getLen() {
         return len;
     }
-    void addElement(int index, const T & element) {
+    void addElement(int & index, const T & element) {
         if (index < 0) {
             std::cout << "if u want indexes less then zero, u should go python\n";
         }
@@ -62,22 +58,22 @@ public:
             arr[index] = element;
         }
         else {
-            len = index + 1;
-            buffer_len = index*2 + 1;
-//            arr = new T[len];
-//            for (int i = 0; i < len; ++i) {
-//                arr
-//            }
-            arr = (T*) realloc(arr, buffer_len);
-//            lenChange(index * 2);
-            arr[index] = element;
+            if (len == buffer_len) {
+                len = index + 1;
+                buffer_len = index * 2 + 1;
+                arr = (T *) realloc(arr, buffer_len);
+                arr[index] = element;
+            }
+            else {
+                len = index + 1;
+                arr[index] = element;
+            }
         }
     }
-    void lenChange(int new_len) {
+    void lenChange(int & new_len) {
         len = new_len;
-        buffer_len = new_len;
-//        arr = realloc(arr, buffer_len);
-        arr = realloc(arr, buffer_len*=2);
+        buffer_len = new_len * 2;
+        arr = realloc(arr, buffer_len);
     }
 };
 

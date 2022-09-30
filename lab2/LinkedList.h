@@ -1,4 +1,3 @@
-
 #ifndef LAB2_LINKEDLIST_H
 #define LAB2_LINKEDLIST_H
 
@@ -6,142 +5,120 @@
 
 template <class T> class LinkedList {
 private:
-    LinkedList<T>* next;
-    LinkedList<T>* start;
-    T element;
+    typedef struct Node {
+        Node* next;
+        T value;
+    };
+    Node* head;
+    Node* tail;
     int len;
 public:
-    LinkedList(): start(nullptr), next(nullptr), element(nullptr), len(0) {};
-    explicit LinkedList(int len): element(nullptr), len(len) {
-        start = new LinkedList();
-        next = start;
-        for (int i = 0; i < len; i++) {
-            next -> next = new LinkedList();
-            next = next -> next;
+    Node* Node(const T & value): value(value), next(nullptr);
+    LinkedList(): len(0), head(Node(nullptr)), tail(nullptr);
+    explicit LinkedList(int & len): len(len), head(nullptr), tail(nullptr) {};
+    LinkedList(T* & items, int & count) {
+        head = Node(nullptr);
+        Node* tmp = head;
+        for (int i = 0; i < count; i++) {
+            tmp -> next = Node(items[i]);
+            tmp = tmp -> next;
         }
-        next = start;
+        tail = tmp;
+        len = cout;
     };
-    LinkedList(const LinkedList<T> & array) {
-        start = new LinkedList(array -> len);
-        next = start;
-        for (int i = 0; i < start -> len; i++) {
-            next -> element = array . element;
-            next = next -> next;
+    LinkedList(LinkedList <T> & list const) {
+        head = Node(nullptr);
+        tail = nullptr;
+        len = cout;
+        Node* tmp1 = head;
+        Node* tmp2 = list.head;
+        for (int i = 0; i < list.len; i++) {
+            tmp1 -> next = Node(tmp2->next->value);
+            tmp1 = tmp1 -> next;
+            tmp2 = tmp2 -> next;
         }
-        next = start;
-    }
-    LinkedList & operator=(const LinkedList<T> & array) {
-        delete start;
-        delete next;
-        delete element;
-        start = new LinkedList(array -> len);
-        next = start;
-        for (int i = 0; i < start -> len; i++) {
-            next -> element = array . element;
-            next = next -> next;
+        tail = tmp1;
+    };
+    LinkedList<T> & operator=(LinkedList <T> & list const) {
+        head = Node(nullptr);
+        tail = nullptr;
+        len = cout;
+        Node* tmp1 = head;
+        Node* tmp2 = list.head;
+        for (int i = 0; i < list.len; i++) {
+            tmp1 -> next = Node(tmp2->next->value);
+            tmp1 = tmp1 -> next;
+            tmp2 = tmp2 -> next;
         }
-        next = start;
+        tail = tmp1;
         return *this;
-    }
-    ~LinkedList() {
-        delete start;
-        delete next;
-        delete element;
     };
+    ~LinkedList() {
+        delete head;
+        delete tail;
+    }
     T GetFirst() {
-        return start -> element;
+        return head -> next -> value;
     }
     T GetLast() {
-        next = start;
-        for (int i = 0; i < len; i++) {
-            next = next -> next;
-        }
-        return next -> element;
+        return tail -> value;
     }
-    T & operator[](int index) {
-        next = start;
-        if (index < 0) {
-            std::cout << "wrong_index" << std::endl;;
+    T GetIndex(const int & index) {
+        if (index < 0 || index >= len) {
+            std::coud << "Index out of range" << std::endl;
             return nullptr;
         }
-        else if (index > len - 1) {
-            std::cout << "too_far_away..." << std::endl;;
-            return nullptr;
-        }
-        else for (int i = 0; i <= index; i++) {
-            next = next -> next;
-        }
-        return next -> element;
-    };
-    LinkedList<T>* GetSubList(int startIndex, int endIndex) {
-        if ((0 <= startIndex) && (startIndex <= endIndex) && (endIndex < len)) {
-            next = start;
-            LinkedList<T>* array = new LinkedList(endIndex - startIndex + 1);
-            for (int i = 0; i <= endIndex; i++) {
-                next = next -> next;
-                if (i >= startIndex) {
-                    array -> next -> element = next -> element;
-                    array -> next = array -> next -> next;
-                }
+        else {
+            Node* tmp = head;
+            for(int i = 0; i < index; i++) {
+                tmp = tmp -> next;
             }
-            array -> next = array -> start;
-            next = start;
-            return array;
+            return tmp -> next -> value;
         }
-        else {
-            std::cout << "wrong indexes" << std::endl;
+    }
+    LinkedList<T> GetSubList(const int & start, const int & end) {
+        if (start < 0 || start >= len || end < 0 || end >= len || end < start) {
+            std::coud << "Something wrong" << std::endl;
             return nullptr;
         }
-    }
-    int GetLength() {
-        return len;
-    };
-    void Append(T item) {
-        next = start;
-        for (int i = 0; i < len; i++) {
-            next = next -> next;
-        }
-        next -> next = new LinkedList();
-        next -> next -> element = item;
-        next = start;
-    }
-    void Prepend(T item) {
-        next = start;
-        start = new LinkedList();
-        start -> element = item;
-        start -> next = next;
-        next = start;
-    }
-    void InsertAt(T item, int index) {
-        if (index > 0 && index < len) {
-            next = start;
-            for (int i = 0; i < index; i++) next = next->next;
-            LinkedList<T> *tmp = new LinkedList();
-            tmp->element = item;
-            tmp->next = next->next;
-            next->next = tmp;
-        }
         else {
-            std::cout << "OutOfRange" << std::endl;
+            LinkedList<T> list = new LinkedList(end - start + 1);
+            Node* tmp = list.head;
+            for (int i = start; i <= end; i++) {
+                tmp -> next = GetIndex(i);
+                tmp = tmp -> next;
+            }
+            return list;
         }
     }
-    LinkedList<T>* operator+(LinkedList<T>* arr1) {
-        LinkedList<T>* L = new LinkedList(len + arr1 -> len);
-        next = start;
-        for (int i = 0; i < arr1 -> len; i++) {
-            L -> next -> element = arr1 -> next -> element;
-            L -> next = L -> next -> next;
-            arr1 -> next = arr1 -> next -> next;
+    int GetLen() {
+        return len;
+    }
+    void Append(const T & element) {
+        tail -> next = Node(element);
+        tail = tail -> next;
+    }
+    void Prepend(const T & element) {
+        Node* tmp = Node(element);
+        tmp -> next = head -> next;
+        head -> next = tmp;
+    }
+    void InsertAt(const int & index, const T & element) {
+        Node* tmp = Node(element);
+        Node* tmp_go = head;
+        for (int i = 0; i < index; i++) {
+            tmp_go = tmp_go -> next;
         }
-        for (int i = arr1 -> len; i < arr1 -> len + len; i++) {
-            L -> next -> element = next -> element;
-            L -> next = L -> next -> next;
-            next = next -> next;
-        }
-        L -> next = L -> start;
-        arr1 -> next = arr1 -> start;
-        next = start;
-        return L;
+        tmp -> next = tmp_go -> next;
+        tmp_go -> next = tmp;
+    }
+    LinkedList<T> & operator+(const LinkedList<T> & list) {
+        LinkedList<T> sum = new LinkedList(list.len + len);
+        sum = *this;
+        LinkedList<T> tmp = list;
+        sum.tail -> next = tmp.head -> next;
+        sum.tail = tmp.tail;
+        return sum;
     }
 };
 
