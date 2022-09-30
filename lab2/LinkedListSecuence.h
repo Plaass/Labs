@@ -21,7 +21,7 @@ public:
     ~LinkedListSecuence() {
         delete list;
     }
-    virtual T GetFirst() {
+    T GetFirst() override {
         return list.GetFirst();
     };
 
@@ -38,7 +38,7 @@ public:
     };
 
     virtual int GetLength() {
-        return list.GetLen()
+        return list.GetLen();
     }
 
     virtual void Append(T item) {

@@ -1,11 +1,13 @@
 #include <iostream>
 #include <vector>
 
-#include "DynamicArray.h"
-#include "LinkedList.h"
-#include "Secuence.h"
+//#include "DynamicArray.h"
+//#include "LinkedList.h"
+//#include "Secuence.h"
+//#include "LinkedListSecuence.h"
+//#include "ArraySecuence.h"
 
-
+// 1
 // возвращать ссылки там где это нужно
 // разобраться с делегированием полномочий
 // принимать ссылки
@@ -13,41 +15,29 @@
 // использовать функции DynamicArray (например getLen())
 // разделить sequences по файлам
 
+// 2
+// исправить ссылки
+// возвращать ссылки там где это нужно
+// исправить опечатки и попробовать скомпилировать
+// GetSubSecuence должен возвращать Sequence*
 
-class A {
+
+template<class T>
+class Vector {
+//    Secuence<T>* seq = new ArraySecuence<T>();
+
 public:
-    int* p;
-    A() {
-        p = new int(2);
-        std::cout << "A::A()" << std::endl;
-    };
-    A(const A & other) {
-//        p = new int(*other.p);
-        std::cout << "A(const A &)" << std::endl;
-    }
-
-    A& operator=(const A & other) {
-        std::cout << "=(const A &)" << std::endl;
-    }
-
-    ~A() {
-        delete p;
-        std::cout << "~A()" << std::endl;
+    Vector operator+(const Vector<T> & other) {
+//        Vector<T> res;
+//        for (int i = 0; i < other.len; ++i) {
+//            res[i] = other[i] + seq[i];
+//        }
     }
 };
-// A()
-// foo()
 
-void foo(const A & a) {
-    std::cout << "foo" << std::endl;
-    return;
-}
 
 int main() {
-    A a;
-    foo(a);
-
-    Secuence<int>* sec = new ListSecuence<int>();
+//    Secuence<int>* sec = new ListSecuence<int>();
 
 
 

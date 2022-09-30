@@ -5,18 +5,26 @@
 
 template <class T> class LinkedList {
 private:
-    typedef struct Node {
+    class Node {
         Node* next;
         T value;
+    public:
+        explicit Node(const T & value): value(value), next(nullptr) {};
     };
     Node* head;
     Node* tail;
     int len;
+
 public:
-    Node* Node(const T & value): value(value), next(nullptr);
-    LinkedList(): len(0), head(Node(nullptr)), tail(nullptr);
-    explicit LinkedList(int & len): len(len), head(nullptr), tail(nullptr) {};
-    LinkedList(T* & items, int & count) {
+    LinkedList(): len(0), head(Node(nullptr)), tail(nullptr) {};
+
+    explicit LinkedList(int len): len(len), head(nullptr), tail(nullptr) {};
+
+    int foo(T* ) {}
+    int foo(int ) {}
+    int foo(const T & ) {}
+
+    LinkedList(T* items, int count) {
         head = Node(nullptr);
         Node* tmp = head;
         for (int i = 0; i < count; i++) {
@@ -24,12 +32,13 @@ public:
             tmp = tmp -> next;
         }
         tail = tmp;
-        len = cout;
+        len = count;
     };
-    LinkedList(LinkedList <T> & list const) {
+
+    LinkedList(const LinkedList <T> & list) {
         head = Node(nullptr);
         tail = nullptr;
-        len = cout;
+        len = list.len;
         Node* tmp1 = head;
         Node* tmp2 = list.head;
         for (int i = 0; i < list.len; i++) {
@@ -39,7 +48,7 @@ public:
         }
         tail = tmp1;
     };
-    LinkedList<T> & operator=(LinkedList <T> & list const) {
+    LinkedList<T> & operator=(const LinkedList <T> & list) {
         head = Node(nullptr);
         tail = nullptr;
         len = cout;
@@ -57,15 +66,15 @@ public:
         delete head;
         delete tail;
     }
-    T GetFirst() {
+    T & GetFirst() {
         return head -> next -> value;
     }
-    T GetLast() {
+    T & GetLast() {
         return tail -> value;
     }
-    T GetIndex(const int & index) {
+    T & GetIndex(const int & index) {
         if (index < 0 || index >= len) {
-            std::coud << "Index out of range" << std::endl;
+            std::cout << "Index out of range" << std::endl;
             return nullptr;
         }
         else {
@@ -78,7 +87,7 @@ public:
     }
     LinkedList<T> GetSubList(const int & start, const int & end) {
         if (start < 0 || start >= len || end < 0 || end >= len || end < start) {
-            std::coud << "Something wrong" << std::endl;
+            std::cout << "Something wrong" << std::endl;
             return nullptr;
         }
         else {
