@@ -17,13 +17,7 @@ private:
 
 public:
     LinkedList(): len(0), head(Node(nullptr)), tail(nullptr) {};
-
     explicit LinkedList(int len): len(len), head(nullptr), tail(nullptr) {};
-
-    int foo(T* ) {}
-    int foo(int ) {}
-    int foo(const T & ) {}
-
     LinkedList(T* items, int count) {
         head = Node(nullptr);
         Node* tmp = head;
@@ -34,8 +28,7 @@ public:
         tail = tmp;
         len = count;
     };
-
-    LinkedList(const LinkedList <T> & list) {
+    LinkedList(const LinkedList<T> & list) {
         head = Node(nullptr);
         tail = nullptr;
         len = list.len;
@@ -51,10 +44,10 @@ public:
     LinkedList<T> & operator=(const LinkedList <T> & list) {
         head = Node(nullptr);
         tail = nullptr;
-        len = cout;
+        len = list.GetLen();
         Node* tmp1 = head;
         Node* tmp2 = list.head;
-        for (int i = 0; i < list.len; i++) {
+        for (int i = 0; i < len; i++) {
             tmp1 -> next = Node(tmp2->next->value);
             tmp1 = tmp1 -> next;
             tmp2 = tmp2 -> next;
@@ -72,7 +65,7 @@ public:
     T & GetLast() {
         return tail -> value;
     }
-    T & GetIndex(const int & index) {
+    T & GetIndex(int index) {
         if (index < 0 || index >= len) {
             std::cout << "Index out of range" << std::endl;
             return nullptr;
@@ -85,7 +78,7 @@ public:
             return tmp -> next -> value;
         }
     }
-    LinkedList<T> GetSubList(const int & start, const int & end) {
+    LinkedList<T> GetSubList(int start, int end) {
         if (start < 0 || start >= len || end < 0 || end >= len || end < start) {
             std::cout << "Something wrong" << std::endl;
             return nullptr;
@@ -112,7 +105,7 @@ public:
         tmp -> next = head -> next;
         head -> next = tmp;
     }
-    void InsertAt(const int & index, const T & element) {
+    void InsertAt(int index, const T & element) {
         Node* tmp = Node(element);
         Node* tmp_go = head;
         for (int i = 0; i < index; i++) {

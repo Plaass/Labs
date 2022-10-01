@@ -15,45 +15,47 @@ public:
     explicit LinkedListSecuence(const LinkedList<T> & arr) {
         list = arr;
     }
-    LinkedListSecuence(T* & arr, const int & quantity) {
+    LinkedListSecuence(T* arr, int quantity) {
         list = LinkedList<T>(arr, quantity);
     }
     ~LinkedListSecuence() {
         delete list;
     }
-    T GetFirst() override {
+    T & GetFirst() override {
         return list.GetFirst();
     };
 
-    virtual T GetLast() {
+   T & GetLast() override {
         return list.GetLast();
     }
 
-    virtual T GetIndex(int index) {
+    T & GetIndex(int index) override {
         return list.GetIndex(index);
     };
 
-    virtual T *GetSubSecuence(int startindex, int endindex) {
-        return list.GetSubList(startindex, endindex);
+    LinkedListSecuence<T> GetSubSecuence(int startindex, int endindex) override {
+        LinkedListSecuence<T> sublist;
+        sublist.list = list.GetSubList(startindex, endindex);
+        return sublist;
     };
 
-    virtual int GetLength() {
+    int GetLength() override{
         return list.GetLen();
     }
 
-    virtual void Append(T item) {
+    void Append(const T & item) override{
         list.Append(item);
     }
 
-    virtual void Prepend(T item) {
+    void Prepend(const T & item) override{
         list.Prepend(item);
     };
 
-    virtual void InsertAt(T item, int & index) {
+    void InsertAt(const T & item, int index) override{
         list.InsertAt(index, item);
     };
 
-    LinkedListSecuence<T> operator+(const LinkedListSecuence<T> & arr1) {
+    LinkedListSecuence<T> operator+(const LinkedListSecuence<T> & arr1) override{
         return list + arr1.list;
     };
 };

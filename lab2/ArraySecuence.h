@@ -24,35 +24,35 @@ public:
     ~ArraySecuence() {
         delete array;
     }
-    virtual T GetFirst() override {
+    T & GetFirst() override {
         return array[0];
     }
-    virtual T GetLast() override {
+    T & GetLast() override {
         return array[array.getLen() - 1];
     }
-    virtual T GetIndex(int index) override {
+    T & GetIndex(int index) override {
         return array[index];
     }
-    virtual Secuence<T> GetSubSecuence(int startindex, int endindex) {
+    Secuence<T> GetSubSecuence(int startindex, int endindex) override {
         Secuence<T> res;
         for (int i = startindex; i <= endindex; i++) {
             res.Append(array[i]);
         }
         return res;
     }
-    virtual int GetLength() const override {
+    int GetLength() override {
         return array.getLen();
     }
-    virtual void Append(const & T item) {
+    void Append(const  T & item) override {
         array.addElement(array.getLen(), item);
     }
-    virtual void Prepend(const & T item) {
+    void Prepend(const T & item) override {
         for (int i = array .getLen(); i > 0; i--) {
             array.addElement(i, array[i-1]);
         }
         array.addElement(0, item);
     }
-    virtual void InsertAt(const T & item, int index) {
+    void InsertAt(const T & item, int index) override {
         if (index < 0) {
             std::cout << "out of range" << std::endl;
         }
@@ -66,7 +66,7 @@ public:
             array.addElement(index, item);
         }
     }
-    virtual ArraySecuence<T> operator+(const ArraySecuence<T> & arr1) {
+    ArraySecuence<T> operator+(const ArraySecuence<T> & arr1) override{
         ArraySecuence<T> sumarr = ArraySecuence(array .getLen() + arr1.len);
         for (int i = 0; i < array . len; i++) {
             sumarr[i] = array[i];

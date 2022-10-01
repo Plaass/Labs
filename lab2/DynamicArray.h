@@ -11,7 +11,7 @@ private:
 public:
     DynamicArray(): arr(nullptr), len(0), buffer_len(0) {};
 
-    explicit DynamicArray(int & len): len(len), buffer_len(2*len) {
+    explicit DynamicArray(int len): len(len), buffer_len(2*len) {
         arr = new T[buffer_len];
     };
     DynamicArray(const DynamicArray<T> & array) {
@@ -35,22 +35,22 @@ public:
     ~DynamicArray() {
         delete[] arr;
     }
-    T & operator[](int & index) {
+    T & operator[](int index) {
         return arr[index];
     }
-    T& at(int & index) {
+    T & at(int index) {
         if (index < 0 || index >= len) {
             throw std::out_of_range("out of range");
         }
         return arr[index];
     }
-    T getT(int & index) {
+    T & getT(int index) {
         return arr[index];
     }
     int getLen() {
         return len;
     }
-    void addElement(int & index, const T & element) {
+    void addElement(int index, const T & element) {
         if (index < 0) {
             std::cout << "if u want indexes less then zero, u should go python\n";
         }
@@ -70,7 +70,7 @@ public:
             }
         }
     }
-    void lenChange(int & new_len) {
+    void lenChange(int new_len) {
         len = new_len;
         buffer_len = new_len * 2;
         arr = realloc(arr, buffer_len);
