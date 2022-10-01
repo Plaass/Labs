@@ -6,6 +6,7 @@
 template <class T> class LinkedList {
 private:
     class Node {
+    public:
         Node* next;
         T value;
     public:
@@ -66,26 +67,26 @@ public:
         return tail -> value;
     }
     T & GetIndex(int index) {
-        if (index < 0 || index >= len) {
+        /*if (index < 0 || index >= len) {
             std::cout << "Index out of range" << std::endl;
             return nullptr;
         }
-        else {
+        else {*/
             Node* tmp = head;
             for(int i = 0; i < index; i++) {
                 tmp = tmp -> next;
             }
             return tmp -> next -> value;
-        }
+        //}
     }
-    LinkedList<T> GetSubList(int start, int end) {
+    LinkedList<T>* GetSubList(int start, int end) {
         if (start < 0 || start >= len || end < 0 || end >= len || end < start) {
             std::cout << "Something wrong" << std::endl;
             return nullptr;
         }
         else {
-            LinkedList<T> list = new LinkedList(end - start + 1);
-            Node* tmp = list.head;
+            LinkedList<T>* list = new LinkedList(end - start + 1);
+            Node* tmp = list->head;
             for (int i = start; i <= end; i++) {
                 tmp -> next = GetIndex(i);
                 tmp = tmp -> next;

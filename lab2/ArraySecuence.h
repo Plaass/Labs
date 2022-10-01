@@ -25,18 +25,18 @@ public:
         delete array;
     }
     T & GetFirst() override {
-        return array[0];
+        return array->at(0);
     }
     T & GetLast() override {
-        return array[array->getLen() - 1];
+        return array->at(array->getLen() - 1);
     }
     T & GetIndex(int index) override {
-        return array[index];
+        return array->at(index);
     }
     Secuence<T>* GetSubSecuence(int startindex, int endindex) override {
         ArraySecuence<T>* res;
         for (int i = startindex; i <= endindex; i++) {
-            res -> Append(array[i]);
+            res -> Append(array->at(i));
         }
         return res;
     }
@@ -48,7 +48,7 @@ public:
     }
     void Prepend(const T & item) override {
         for (int i = array ->getLen(); i > 0; i--) {
-            array->addElement(i, array[i-1]);
+            array->addElement(i, array->at(i-1));
         }
         array->addElement(0, item);
     }
@@ -57,22 +57,22 @@ public:
             std::cout << "out of range" << std::endl;
         }
         else if (index > 1 && index < array->getLen() - 1) {
-            for (int i = array->len; i > index; i--) {
-                array->addElement(i, array[i - 1]);
+            for (int i = array->getLen(); i > index; i--) {
+                array->addElement(i, array->at(i-1));
             }
             array->addElement(index, item);
         }
-        else if (index >= array -> len || index == 0 || index == array->len - 1) {
+        else if (index >= array -> getLen() || index == 0 || index == array->getLen() - 1) {
             array->addElement(index, item);
         }
     }
     ArraySecuence<T> * operator+(ArraySecuence<T> * arr1){
         ArraySecuence<T>* sumarr = ArraySecuence(array->getLen() + arr1->GetLength());
-        for (int i = 0; i < array->len; i++) {
-            sumarr[i] = array[i];
+        for (int i = 0; i < array->getLen(); i++) {
+            sumarr->GetIndex(i) = array->at(i);
         }
-        for (int i = array -> len; i < arr1->len; i++) {
-            sumarr[i] = arr1[i - array->len];
+        for (int i = array -> getLen(); i < arr1->getLen(); i++) {
+            sumarr->GetIndex(i) = arr1->GetIndex(i - array->getLen());
         }
         return sumarr;
     }
