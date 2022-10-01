@@ -7,7 +7,9 @@
 #include "LinkedListSecuence.h"
 #include "ArraySecuence.h"
 #include "Vector.h"
+#include "Complex.h"
 
 int main() {
-    return 0;
+    Vector<Complex>* c = new Vector<Complex>(); // ?
+
 }

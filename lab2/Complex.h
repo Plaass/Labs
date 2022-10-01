@@ -37,6 +37,11 @@ public:
         multiply -> Im() = im * n;
         return multiply;
     }
+    Complex* operator=(int n) {
+        Complex* c = new Complex();
+        c->Re() = n;
+        c->Im() = 0;
+    }
 };
 
 

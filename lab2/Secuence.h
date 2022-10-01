@@ -24,7 +24,7 @@ public:
 
     virtual void InsertAt(const T & item, int index) = 0;
 
-    Secuence<T> operator+(const Secuence<T> & arr1) = 0;
+    virtual Secuence<T> operator+(const Secuence<T> & arr1) = 0;
 };
 
 

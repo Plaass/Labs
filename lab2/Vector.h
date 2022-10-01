@@ -13,7 +13,7 @@ class Vector {
 private:
     Secuence<T> sec = new ArraySecuence<T>();
 public:
-    Vector() = default;
+    Vector() {  };
     void Attend(const T & element) {
         sec.Append(element);
     };
