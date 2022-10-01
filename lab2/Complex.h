@@ -2,6 +2,9 @@
 #define LAB2_COMPLEX_H
 
 
+// todo зачем ты возвращаешь и принимаешь указатели
+//  во всех методах Complex?
+// это си стайл, на плюсах так писать не надо
 class Complex {
 private:
     int re;

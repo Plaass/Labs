@@ -9,10 +9,12 @@
 
 template <class T> class ArraySecuence : public Secuence<T>{
 private:
+    // todo дефолтное значение?
     DynamicArray<T>* array;
 public:
     ArraySecuence() = default;
     explicit ArraySecuence(const DynamicArray<T> & arr) {
+        // todo здесь ошибка
         array = DynamicArray<T>(arr);
     }
     ArraySecuence(T* arr, int quantity) {
@@ -34,6 +36,8 @@ public:
         return array->at(index);
     }
     Secuence<T>* GetSubSecuence(int startindex, int endindex) override {
+        // todo здесь есть ошибка
+        //  что будет лежать в переменной sum после этой строчки?
         ArraySecuence<T>* res;
         for (int i = startindex; i <= endindex; i++) {
             res -> Append(array->at(i));
@@ -54,6 +58,10 @@ public:
     }
     void InsertAt(const T & item, int index) override {
         if (index < 0) {
+            // todo здесь лучше выкинуть исключение
+//            throw std::out_of_range("Array Sequence index out of range");
+            // приучайся при подобных ситуациях либо делать throw, либо return
+            // в таком случае тебе не придется писать много else if
             std::cout << "out of range" << std::endl;
         }
         else if (index > 1 && index < array->getLen() - 1) {
@@ -67,6 +75,7 @@ public:
         }
     }
     ArraySecuence<T> * operator+(ArraySecuence<T> * arr1){
+        // todo здесь есть ошибка
         ArraySecuence<T>* sumarr = ArraySecuence(array->getLen() + arr1->GetLength());
         for (int i = 0; i < array->getLen(); i++) {
             sumarr->GetIndex(i) = array->at(i);

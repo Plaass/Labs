@@ -8,20 +8,14 @@
 #include "ArraySecuence.h"
 #include <iostream>
 
-template<class T>
+
+// todo напоминаю class Container
+template<class T, class Container = ArraySecuence<T>>
 class Vector {
 private:
-    Secuence<T>* sec;
+    Secuence<T>* sec = new Container();
 public:
     Vector() = default;
-    explicit Vector(int i) {
-        if (i == 0) {
-            sec = new ArraySecuence<T>();
-        }
-        else {
-            sec = new LinkedListSecuence<T>();
-        }
-    };
     void Attend(const T & element) {
         sec->Append(element);
     };
@@ -53,8 +47,10 @@ public:
             return nullptr;
         }
         else {
+            // todo ошибка
             Vector<T> sum = new Vector<T>();
             for (int i = 0; i < sec->GetLength(); i++) {
+                // todo Attend
                 Append(sec->GetIndex(i) + vector->GetIndex(i));
             }
             return sum;
@@ -63,8 +59,9 @@ public:
 
     Vector<T> operator*(int scalar) {
         Vector<T> multiply = new Vector<T>();
+//      todo  Vector<T> multiply = Vector<T>();
         for (int i = 0; i < sec->GetLength(); i++) {
-            Append(sec->GetIndex(i) * scalar);
+            Attend(sec->GetIndex(i) * scalar);
         }
         return multiply;
     }
