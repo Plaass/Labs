@@ -9,16 +9,16 @@
 
 template <class T> class ArraySecuence : public Secuence<T>{
 private:
-    DynamicArray<T> array;
+    DynamicArray<T>* array;
 public:
     ArraySecuence() = default;
     explicit ArraySecuence(const DynamicArray<T> & arr) {
         array = DynamicArray<T>(arr);
     }
     ArraySecuence(T* arr, int quantity) {
-        array.lenChange(quantity);
+        array->lenChange(quantity);
         for (int i = 0; i < quantity; i++) {
-            array.addElement(arr[i]);
+            array->addElement(arr[i]);
         }
     }
     ~ArraySecuence() {
@@ -28,51 +28,51 @@ public:
         return array[0];
     }
     T & GetLast() override {
-        return array[array.getLen() - 1];
+        return array[array->getLen() - 1];
     }
     T & GetIndex(int index) override {
         return array[index];
     }
-    Secuence<T> GetSubSecuence(int startindex, int endindex) override {
-        Secuence<T> res;
+    Secuence<T>* GetSubSecuence(int startindex, int endindex) override {
+        ArraySecuence<T>* res;
         for (int i = startindex; i <= endindex; i++) {
-            res.Append(array[i]);
+            res -> Append(array[i]);
         }
         return res;
     }
     int GetLength() override {
-        return array.getLen();
+        return array->getLen();
     }
     void Append(const  T & item) override {
-        array.addElement(array.getLen(), item);
+        array->addElement(array->getLen(), item);
     }
     void Prepend(const T & item) override {
-        for (int i = array .getLen(); i > 0; i--) {
-            array.addElement(i, array[i-1]);
+        for (int i = array ->getLen(); i > 0; i--) {
+            array->addElement(i, array[i-1]);
         }
-        array.addElement(0, item);
+        array->addElement(0, item);
     }
     void InsertAt(const T & item, int index) override {
         if (index < 0) {
             std::cout << "out of range" << std::endl;
         }
-        else if (index > 1 && index < array .getLen() - 1) {
-            for (int i = array . len; i > index; i--) {
-                array.addElement(i, array[i - 1]);
+        else if (index > 1 && index < array->getLen() - 1) {
+            for (int i = array->len; i > index; i--) {
+                array->addElement(i, array[i - 1]);
             }
-            array.addElement(index, item);
+            array->addElement(index, item);
         }
-        else if (index >= array -> len || index == 0 || index == array . len - 1) {
-            array.addElement(index, item);
+        else if (index >= array -> len || index == 0 || index == array->len - 1) {
+            array->addElement(index, item);
         }
     }
-    ArraySecuence<T> operator+(const ArraySecuence<T> & arr1) override{
-        ArraySecuence<T> sumarr = ArraySecuence(array .getLen() + arr1.len);
-        for (int i = 0; i < array . len; i++) {
+    ArraySecuence<T> * operator+(ArraySecuence<T> * arr1){
+        ArraySecuence<T>* sumarr = ArraySecuence(array->getLen() + arr1->GetLength());
+        for (int i = 0; i < array->len; i++) {
             sumarr[i] = array[i];
         }
-        for (int i = array -> len; i < arr1.len; i++) {
-            sumarr[i] = arr1[i - array . len];
+        for (int i = array -> len; i < arr1->len; i++) {
+            sumarr[i] = arr1[i - array->len];
         }
         return sumarr;
     }

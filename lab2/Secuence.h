@@ -14,7 +14,7 @@ public:
 
     virtual T & GetIndex(int index) = 0;
 
-    virtual Secuence<T> GetSubSecuence(int startindex, int endindex) = 0;
+    virtual Secuence<T>* GetSubSecuence(int startindex, int endindex) = 0;
 
     virtual int GetLength() = 0;
 
@@ -24,7 +24,6 @@ public:
 
     virtual void InsertAt(const T & item, int index) = 0;
 
-    virtual Secuence<T> operator+(const Secuence<T> & arr1) = 0;
 };
 
 
