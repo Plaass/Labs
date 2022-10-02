@@ -35,7 +35,9 @@ public:
 
     Secuence<T>* GetSubSecuence(int startindex, int endindex) override {
         LinkedListSecuence<T>* sublist;
-        sublist -> list = list->GetSubList(startindex, endindex);
+        for (int i = 0; i <= endindex - startindex; i++) {
+            sublist->Append(list->GetIndex(i + startindex));
+        }
         return sublist;
     };
 

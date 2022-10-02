@@ -9,13 +9,11 @@
 
 template <class T> class ArraySecuence : public Secuence<T>{
 private:
-    // todo дефолтное значение?
-    DynamicArray<T>* array;
+    DynamicArray<T>* array = nullptr;
 public:
     ArraySecuence() = default;
     explicit ArraySecuence(const DynamicArray<T> & arr) {
-        // todo здесь ошибка
-        array = DynamicArray<T>(arr);
+        array = new DynamicArray<T>(arr);
     }
     ArraySecuence(T* arr, int quantity) {
         array->lenChange(quantity);
@@ -58,10 +56,6 @@ public:
     }
     void InsertAt(const T & item, int index) override {
         if (index < 0) {
-            // todo здесь лучше выкинуть исключение
-//            throw std::out_of_range("Array Sequence index out of range");
-            // приучайся при подобных ситуациях либо делать throw, либо return
-            // в таком случае тебе не придется писать много else if
             std::cout << "out of range" << std::endl;
         }
         else if (index > 1 && index < array->getLen() - 1) {

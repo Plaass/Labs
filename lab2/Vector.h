@@ -58,8 +58,7 @@ public:
     }
 
     Vector<T> operator*(int scalar) {
-        Vector<T> multiply = new Vector<T>();
-//      todo  Vector<T> multiply = Vector<T>();
+        Vector<T> multiply = Vector<T>();
         for (int i = 0; i < sec->GetLength(); i++) {
             Attend(sec->GetIndex(i) * scalar);
         }
