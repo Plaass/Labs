@@ -72,10 +72,10 @@ public:
         // todo здесь есть ошибка
         ArraySecuence<T>* sumarr = ArraySecuence(array->getLen() + arr1->GetLength());
         for (int i = 0; i < array->getLen(); i++) {
-            sumarr->GetIndex(i) = array->at(i);
+            sumarr->Append(array->at(i));
         }
         for (int i = array -> getLen(); i < arr1->getLen(); i++) {
-            sumarr->GetIndex(i) = arr1->GetIndex(i - array->getLen());
+            sumarr->Append(arr1->GetIndex(i - array->getLen()));
         }
         return sumarr;
     }

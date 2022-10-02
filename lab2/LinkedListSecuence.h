@@ -61,7 +61,7 @@ public:
         // todo здесь есть ошибка
         //  что будет лежать в переменной sum после этой строчки?
         LinkedListSecuence<T>* sum;
-        sum->list = (*list + *(arr1 -> list));
+        *(sum->list) = (*list + *(arr1 -> list));
         return  sum;
     };
 };
