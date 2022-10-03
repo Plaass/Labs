@@ -44,6 +44,7 @@ public:
         Complex* c = new Complex();
         c->Re() = n;
         c->Im() = 0;
+        return c;
     }
 };
 

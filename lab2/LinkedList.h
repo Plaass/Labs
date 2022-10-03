@@ -18,7 +18,7 @@ private:
     int len;
 
 public:
-    LinkedList(): len(0), head(Node()), tail(Node()) {};
+    LinkedList(): len(0), head(nullptr), tail(nullptr) {};
     explicit LinkedList(int len): len(len), head(Node()), tail(Node()) {};
     LinkedList(T* items, int count) {
         head = Node(nullptr);
