@@ -18,8 +18,17 @@ private:
     int len;
 
 public:
-    LinkedList(): len(0), head(nullptr), tail(nullptr) {};
-    explicit LinkedList(int len): len(len), head(Node()), tail(Node()) {};
+    LinkedList(): len(0), head(new Node()), tail(new Node()) {
+        head -> next = tail;
+    };
+    explicit LinkedList(int len): len(len), head(new Node()), tail(new Node()) {
+        Node* tmp = head;
+        for (int i = 0; i < len; i++) {
+            tmp -> next = new Node();
+            tmp = tmp -> next;
+        }
+        tail = tmp;
+    };
     LinkedList(T* items, int count) {
         head = Node(nullptr);
         Node* tmp = head;
@@ -95,6 +104,9 @@ public:
         return len;
     }
     void Append(const T & element) {
+        if (tail == nullptr) {
+            tail = new Node;
+        }
         tail -> next = new Node(element);
         tail = tail -> next;
         len++;
