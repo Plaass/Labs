@@ -60,7 +60,7 @@ public:
     Vector<T> operator*(int scalar) {
         Vector<T> multiply = Vector<T>();
         for (int i = 0; i < sec->GetLength(); i++) {
-            Attend(sec->GetIndex(i) * scalar);
+            multiply.Attend(sec->GetIndex(i) * scalar);
         }
         return multiply;
     }

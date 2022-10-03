@@ -30,7 +30,7 @@ public:
         tail = tmp;
     };
     LinkedList(T* items, int count) {
-        head = Node(nullptr);
+        head = new Node();
         Node* tmp = head;
         for (int i = 0; i < count; i++) {
             tmp -> next = Node(items[i]);
@@ -105,7 +105,7 @@ public:
     }
     void Append(const T & element) {
         if (tail == nullptr) {
-            tail = new Node;
+            tail = new Node();
         }
         tail -> next = new Node(element);
         tail = tail -> next;
