@@ -24,11 +24,13 @@ public:
             array->addElement(arr[i]);
         }
     }
-    void operator<<(ArraySecuence<T>* arr) {
+    std::ostream& operator<<(std::ostream &out, Secuence<T>* arr) override{
+        out << "arr{ ";
         for (int i = 0; i < arr->GetLength(); i++) {
-            std::cout << arr->GetIndex(i);
+            out << arr->GetIndex(i) << " ";
         }
-        std::cout << std::endl;
+        out << "}";
+        return out;
     }
     ~ArraySecuence() {
         delete array;

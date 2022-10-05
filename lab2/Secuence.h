@@ -18,6 +18,8 @@ public:
 
     virtual int GetLength() = 0;
 
+    virtualstd::ostream& operator<<(std::ostream &out, Secuence<T>* arr) = 0;
+
     virtual void Append(const T & item) = 0;
 
     virtual void Prepend (const T & item) = 0;

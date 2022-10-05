@@ -25,15 +25,15 @@ int main() {
                         list->Append(element);
                     }
                     std::cout << "Начнём проверку функций, используя нулевой элемент: " << std::endl;
-                    std::cout << "GetFirst(): " << std::endl;
-                    std::cout << "GetLast(): " << std::endl;
-                    std::cout << "GetIndex(): " << std::endl;
-                    std::cout << "GetSubSecuence: " << std::endl;
-                    std::cout << "GetLength(): " << std::endl;
-                    std::cout << "Append(0): " << std::endl;
-                    std::cout << "Prepend(0): " << std::endl;
-                    std::cout << "InsertAt(0, N / 2): " << std::endl;
-                    std::cout << "Unite(list, list): " << std::endl;
+                    std::cout << "list->GetFirst(): " << list->GetFirst() << std::endl;
+                    std::cout << "list->GetLast(): " << list->GetLast() << std::endl;
+                    std::cout << "list->GetIndex(N/2): " << list->GetIndex(N/2) << std::endl;
+                    std::cout << "list->GetSubSecuence(0, N/2): " << list->GetSubSecuence(0, N/2) << std::endl;
+                    std::cout << "list->GetLength(): " << list->GetLength() << std::endl;
+                    std::cout << "list->Append(0): " << (list->Append(0)) << std::endl;
+                    std::cout << "list->Prepend(0): " << list->Prepend(0) << std::endl;
+                    std::cout << "list->InsertAt(0, N / 2): " << list->InsertAt(0, N / 2) << std::endl;
+                    std::cout << "Unite(list, list): " << list->Unite(list, list) <<std::endl;
                 }
                 case 1: {
 
