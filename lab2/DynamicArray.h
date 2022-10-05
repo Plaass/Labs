@@ -9,7 +9,9 @@ private:
     int len;
     int buffer_len;
 public:
-    DynamicArray(): arr(nullptr), len(0), buffer_len(1) {};
+    DynamicArray(): arr(nullptr), len(0), buffer_len(1) {
+        arr = new T[1];
+    };
 
     explicit DynamicArray(int len): len(len), buffer_len(2*len) {
         arr = new T[buffer_len];
@@ -65,6 +67,7 @@ public:
                 arr[index] = element;
             }
             else {
+
                 len = index + 1;
                 arr[index] = element;
             }

@@ -24,6 +24,12 @@ public:
             array->addElement(arr[i]);
         }
     }
+    void operator<<(ArraySecuence<T>* arr) {
+        for (int i = 0; i < arr->GetLength(); i++) {
+            std::cout << arr->GetIndex(i);
+        }
+        std::cout << std::endl;
+    }
     ~ArraySecuence() {
         delete array;
     }

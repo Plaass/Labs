@@ -18,17 +18,7 @@ private:
     int len;
 
 public:
-    LinkedList(): len(0), head(new Node()), tail(new Node()) {
-        head -> next = tail;
-    };
-    explicit LinkedList(int len): len(len), head(new Node()), tail(new Node()) {
-        Node* tmp = head;
-        for (int i = 0; i < len; i++) {
-            tmp -> next = new Node();
-            tmp = tmp -> next;
-        }
-        tail = tmp;
-    };
+    LinkedList(): len(0), head(nullptr), tail(nullptr) {};
     LinkedList(T* items, int count) {
         head = new Node();
         Node* tmp = head;
@@ -67,8 +57,8 @@ public:
         return *this;
     };
     ~LinkedList() {
-        delete head;
-        delete tail;
+        delete [] head;
+        delete [] tail;
     }
     T & GetFirst() {
         return head -> next -> value;
@@ -104,27 +94,45 @@ public:
         return len;
     }
     void Append(const T & element) {
-        if (tail == nullptr) {
-            tail = new Node();
+        if (head == nullptr) {
+            head = new Node();
+            tail = new Node(element);
+            head -> next = tail;
         }
-        tail -> next = new Node(element);
-        tail = tail -> next;
+        else {
+            tail->next = new Node(element);
+            tail = tail->next;
+        }
         len++;
     }
     void Prepend(const T & element) {
-        Node* tmp = new Node(element);
-        tmp -> next = head -> next;
-        head -> next = tmp;
+        if (head == nullptr) {
+            head = new Node();
+            tail = new Node(element);
+            head -> next = tail;
+        }
+        else {
+            Node *tmp = new Node(element);
+            tmp->next = head->next;
+            head->next = tmp;
+        }
         len++;
     }
     void InsertAt(int index, const T & element) {
-        Node* tmp = new Node(element);
-        Node* tmp_go = head;
-        for (int i = 0; i < index; i++) {
-            tmp_go = tmp_go -> next;
+        if (head == nullptr) {
+            head = new Node();
+            tail = new Node(element);
+            head -> next = tail;
         }
-        tmp -> next = tmp_go -> next;
-        tmp_go -> next = tmp;
+        else {
+            Node *tmp = new Node(element);
+            Node *tmp_go = head;
+            for (int i = 0; i < index; i++) {
+                tmp_go = tmp_go->next;
+            }
+            tmp->next = tmp_go->next;
+            tmp_go->next = tmp;
+        }
         len++;
     }
     LinkedList<T> & operator+(const LinkedList<T> & list) {

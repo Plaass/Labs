@@ -21,6 +21,12 @@ public:
     ~LinkedListSecuence() {
         delete list;
     }
+    void operator<<(LinkedListSecuence<T>* arr) {
+        for (int i = 0; i < arr->GetLength(); i++) {
+            std::cout << arr->GetIndex(i);
+        }
+        std::cout << std::endl;
+    }
     T & GetFirst() override {
         return list.GetFirst();
     };
@@ -57,7 +63,7 @@ public:
         list.InsertAt(index, item);
     };
 
-    LinkedListSecuence<T>*  Unite (Secuence<T>* arr1 = new LinkedListSecuence<T>(), Secuence<T>* arr2 = new LinkedListSecuence<T>()) override{
+    LinkedListSecuence<T>*  Unite(Secuence<T>* arr1 = new LinkedListSecuence<T>(), Secuence<T>* arr2 = new LinkedListSecuence<T>()) override{
         // todo здесь есть ошибка
         //  что будет лежать в переменной sum после этой строчки?
         LinkedListSecuence<T>* sum;

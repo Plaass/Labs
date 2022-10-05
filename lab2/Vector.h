@@ -8,8 +8,6 @@
 #include "ArraySecuence.h"
 #include <iostream>
 
-
-// todo напоминаю class Container
 template<class T, class Container = ArraySecuence<T>>
 class Vector {
 private:
@@ -41,14 +39,14 @@ public:
         return sec->GetLength();
     }
 
-    Vector<T> operator+(const Vector<T> * vector) {
+    Vector<T, Container> operator+(const Vector<T, Container> * vector) {
         if (sec->GetLength() != vector->GetLength()) {
             std::cout << "impossible to summ" << std::endl;
             return nullptr;
         }
         else {
             // todo ошибка
-            Vector<T> sum = new Vector<T>();
+            Vector<T, Container> sum = new Vector<T, Container>();
             for (int i = 0; i < sec->GetLength(); i++) {
                 // todo Attend
                 Append(sec->GetIndex(i) + vector->GetIndex(i));
@@ -57,8 +55,8 @@ public:
         }
     }
 
-    Vector<T> operator*(int scalar) {
-        Vector<T> multiply = Vector<T>();
+    Vector<T, Container> operator*(int scalar) {
+        Vector<T, Container> multiply = Vector<T, Container>();
         for (int i = 0; i < sec->GetLength(); i++) {
             multiply.Attend(sec->GetIndex(i) * scalar);
         }
@@ -73,7 +71,7 @@ public:
         return sqrt(norm);
     }
 
-    T operator*(const Vector<T> * vector) {
+    T operator*(const Vector<T, Container> * vector) {
         if (sec->GetLength() != vector->GetLength()) {
             std::cout << "impossible to multiply" << std::endl;
             return nullptr;
