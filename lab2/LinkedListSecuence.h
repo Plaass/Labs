@@ -6,6 +6,7 @@
 #include "Secuence.h"
 
 #include <iostream>
+#include <sstream>
 
 template <class T> class LinkedListSecuence: public Secuence<T> {
 private:
@@ -66,15 +67,15 @@ public:
         list.InsertAt(index, item);
     };
 
-    LinkedListSecuence<T>*  Unite(Secuence<T>* arr1 = new LinkedListSecuence<T>(), Secuence<T>* arr2 = new LinkedListSecuence<T>()) override{
+    LinkedListSecuence<T>*  Unite(Secuence<T>* arr1 = new LinkedListSecuence<T>()) override{
         // todo здесь есть ошибка
         //  что будет лежать в переменной sum после этой строчки?
         LinkedListSecuence<T>* sum = new LinkedListSecuence<T>();
         for (int i = 0; i < arr1->GetLength(); i++) {
             sum->Append(arr1->GetIndex(i));
         }
-        for (int i = arr1->GetLength(); i < arr2->GetLength() + arr1->GetLength(); i++) {
-            sum->Append(arr2->GetIndex(i - arr1->GetLength()));
+        for (int i = arr1->GetLength(); i < this->GetLength() + arr1->GetLength(); i++) {
+            sum->Append(this->GetIndex(i - arr1->GetLength()));
         }
         return  sum;
     };

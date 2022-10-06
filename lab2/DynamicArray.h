@@ -61,22 +61,23 @@ public:
         }
         else {
             if (len == buffer_len) {
-                len = index + 1;
-                buffer_len = index * 2 + 1;
-                arr = (T *) realloc(arr, buffer_len);
+                lenChange(index+1);
                 arr[index] = element;
             }
             else {
-
                 len = index + 1;
                 arr[index] = element;
             }
         }
     }
     void lenChange(int new_len) {
+        T* tmp = new T[new_len * 2];
+        for (int i = 0; i < len; i++) {
+            tmp[i] = arr[i];
+        }
+        arr = tmp;
         len = new_len;
         buffer_len = new_len * 2;
-        arr = realloc(arr, buffer_len);
     }
 };
 

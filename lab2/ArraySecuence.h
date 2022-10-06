@@ -34,9 +34,6 @@ public:
         str << "}";
         return str.str();
     }
-    ~ArraySecuence() {
-        delete array;
-    }
     T & GetFirst() override {
         return array.at(0);
     }
@@ -81,13 +78,13 @@ public:
             array.addElement(index, item);
         }
     }
-    ArraySecuence<T> * Unite(Secuence<T> * arr1 = new ArraySecuence<T>(), Secuence<T> * arr2 = new ArraySecuence<T>()) override{
-        ArraySecuence<T>* sumarr = new ArraySecuence(arr1->GetLength() + arr2->GetLength());
+    ArraySecuence<T> * Unite(Secuence<T> * arr1 = new ArraySecuence<T>()) override{
+        ArraySecuence<T>* sumarr = new ArraySecuence(arr1->GetLength() + this->GetLength());
         for (int i = 0; i < arr1->GetLength(); i++) {
             sumarr->Append(arr1->GetIndex(i));
         }
-        for (int i = arr1->GetLength(); i < arr2->GetLength(); i++) {
-            sumarr->Append(arr2->GetIndex(i - arr1->GetLength()));
+        for (int i = arr1->GetLength(); i < this->GetLength(); i++) {
+            sumarr->Append(this->GetIndex(i - arr1->GetLength()));
         }
         return sumarr;
     }

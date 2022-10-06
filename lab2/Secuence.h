@@ -26,7 +26,7 @@ public:
 
     virtual void InsertAt(const T & item, int index) = 0;
 
-    virtual Secuence<T> * Unite(Secuence<T> * arr1, Secuence<T> * arr2) = 0;
+    virtual Secuence<T> * Unite(Secuence<T> * arr1) = 0;
 };
 
 template <class T>

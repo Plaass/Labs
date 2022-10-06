@@ -36,7 +36,7 @@ int main() {
                     std::cout << "list->Prepend(0): " << list << std::endl;
                     list->InsertAt(0, N / 2);
                     std::cout << "list->InsertAt(0, N / 2): " << list << std::endl;
-                    std::cout << "Unite(list, list): " << list->Unite(list, list) <<std::endl;
+                    std::cout << "Unite(list, list): " << list->Unite(list) <<std::endl;
                     break;
                 }
                 case 1: {
@@ -75,7 +75,7 @@ int main() {
                     std::cout << "list->Prepend(0): " << list << std::endl;
                     list->InsertAt(0, N / 2);
                     std::cout << "list->InsertAt(0, N / 2): " << list << std::endl;
-                    std::cout << "Unite(list, list): " << list->Unite(list, list) <<std::endl;
+                    std::cout << "Unite(list, list): " << list->Unite(list) <<std::endl;
                     break;
                 }
                 case 1: {
