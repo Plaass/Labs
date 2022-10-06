@@ -21,13 +21,14 @@ public:
     ~LinkedListSecuence() {
         delete list;
     }
-    std::ostream& operator<<(std::ostream &out, Secuence<T>* arr) override {
-        out << "arr{ ";
-        for (int i = 0; i < arr->GetLength(); i++) {
-            out << arr->GetIndex(i) << " ";
+    std::string ToString() override {
+        std::ostringstream str;
+        str << "{ ";
+        for (int i = 0; i < this->GetLength(); i++) {
+            str << this->GetIndex(i) << " ";
         }
-        out << "}";
-        return out;
+        str << "}";
+        return str.str();
     }
     T & GetFirst() override {
         return list.GetFirst();

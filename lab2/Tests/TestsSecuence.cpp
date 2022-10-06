@@ -5,35 +5,39 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Введите 0, если работаете с целыми числами, 1 - если с вещественными, 2 - если с комплексными: ";
+    std::cout << "Enter 0 if you work with integers, 1 if you work with real numbers, 2 if you work with complex numbers: ";
     int type;
     std::cin >> type;
-    std::cout << "Введите 0, если работаете с ArraySecuence, 1 - LinkedListSecuence: ";
+    std::cout << "Enter 0 if you are working with ArraySecuence, 1 - LinkedListSecuence: ";
     int sec;
     std::cin >> sec;
     switch (sec) {
         case 0: {
             switch (type) {
                 case 0: {
-                    Secuence<int> *list;
+                    Secuence<int> *list = new LinkedListSecuence<int>();
                     int element;
-                    std::cout << "Введите количвество элементов а затем сами элементы массива: ";
+                    std::cout << "Enter the number of elements and then the array elements themselves: ";
                     int N;
                     std::cin >> N;
                     for (int i = 0; i < N; i++) {
                         std::cin >> element;
                         list->Append(element);
                     }
-                    std::cout << "Начнём проверку функций, используя нулевой элемент: " << std::endl;
+                    std::cout << "Let's start checking the functions using the null element: " << std::endl;
                     std::cout << "list->GetFirst(): " << list->GetFirst() << std::endl;
                     std::cout << "list->GetLast(): " << list->GetLast() << std::endl;
                     std::cout << "list->GetIndex(N/2): " << list->GetIndex(N/2) << std::endl;
                     std::cout << "list->GetSubSecuence(0, N/2): " << list->GetSubSecuence(0, N/2) << std::endl;
                     std::cout << "list->GetLength(): " << list->GetLength() << std::endl;
-                    std::cout << "list->Append(0): " << (list->Append(0)) << std::endl;
-                    std::cout << "list->Prepend(0): " << list->Prepend(0) << std::endl;
-                    std::cout << "list->InsertAt(0, N / 2): " << list->InsertAt(0, N / 2) << std::endl;
+                    list->Append(0);
+                    std::cout << "list->Append(0): " << list << std::endl;
+                    list->Prepend(0);
+                    std::cout << "list->Prepend(0): " << list << std::endl;
+                    list->InsertAt(0, N / 2);
+                    std::cout << "list->InsertAt(0, N / 2): " << list << std::endl;
                     std::cout << "Unite(list, list): " << list->Unite(list, list) <<std::endl;
+                    break;
                 }
                 case 1: {
 

@@ -5,3 +5,6 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(lab2 main.cpp)
 
+add_executable(TestsSecuence.cpp Tests/TestsSecuence.cpp)
+
+add_executable(TestsVector.cpp Tests/TestsVector.cpp)

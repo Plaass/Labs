@@ -5,6 +5,7 @@
 #include "LinkedList.h"
 #include "Secuence.h"
 
+#include <sstream>
 #include <iostream>
 
 template <class T> class ArraySecuence : public Secuence<T>{
@@ -24,13 +25,14 @@ public:
             array->addElement(arr[i]);
         }
     }
-    std::ostream& operator<<(std::ostream &out, Secuence<T>* arr) override{
-        out << "arr{ ";
-        for (int i = 0; i < arr->GetLength(); i++) {
-            out << arr->GetIndex(i) << " ";
+    std::string ToString() override {
+        std::ostringstream str;
+        str << "{ ";
+        for (int i = 0; i < this->GetLength(); i++) {
+            str << this->GetIndex(i) << " ";
         }
-        out << "}";
-        return out;
+        str << "}";
+        return str.str();
     }
     ~ArraySecuence() {
         delete array;

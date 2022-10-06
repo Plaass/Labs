@@ -14,11 +14,11 @@ public:
 
     virtual T & GetIndex(int index) = 0;
 
+    virtual std::string ToString() = 0;
+
     virtual Secuence<T>* GetSubSecuence(int startindex, int endindex) = 0;
 
     virtual int GetLength() = 0;
-
-    virtualstd::ostream& operator<<(std::ostream &out, Secuence<T>* arr) = 0;
 
     virtual void Append(const T & item) = 0;
 
@@ -29,5 +29,10 @@ public:
     virtual Secuence<T> * Unite(Secuence<T> * arr1, Secuence<T> * arr2) = 0;
 };
 
+template <class T>
+std::ostream& operator<<(std::ostream &out, Secuence<T>* arr) {
+    out << arr->ToString();
+    return out;
+};
 
 #endif //LAB2_SECUENCE_H
