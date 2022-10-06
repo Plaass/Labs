@@ -49,7 +49,7 @@ public:
     Secuence<T>* GetSubSecuence(int startindex, int endindex) override {
         // todo здесь есть ошибка
         //  что будет лежать в переменной sum после этой строчки?
-        ArraySecuence<T>* res;
+        ArraySecuence<T>* res = new ArraySecuence<T>();
         for (int i = startindex; i <= endindex; i++) {
             res -> Append(array.at(i));
         }
@@ -82,7 +82,6 @@ public:
         }
     }
     ArraySecuence<T> * Unite(Secuence<T> * arr1 = new ArraySecuence<T>(), Secuence<T> * arr2 = new ArraySecuence<T>()) override{
-        // todo здесь есть ошибка
         ArraySecuence<T>* sumarr = new ArraySecuence(arr1->GetLength() + arr2->GetLength());
         for (int i = 0; i < arr1->GetLength(); i++) {
             sumarr->Append(arr1->GetIndex(i));

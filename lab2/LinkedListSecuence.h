@@ -69,7 +69,7 @@ public:
     LinkedListSecuence<T>*  Unite(Secuence<T>* arr1 = new LinkedListSecuence<T>(), Secuence<T>* arr2 = new LinkedListSecuence<T>()) override{
         // todo здесь есть ошибка
         //  что будет лежать в переменной sum после этой строчки?
-        LinkedListSecuence<T>* sum;
+        LinkedListSecuence<T>* sum = new LinkedListSecuence<T>();
         for (int i = 0; i < arr1->GetLength(); i++) {
             sum->Append(arr1->GetIndex(i));
         }
