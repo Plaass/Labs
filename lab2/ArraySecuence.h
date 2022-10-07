@@ -79,11 +79,11 @@ public:
         }
     }
     ArraySecuence<T> * Unite(Secuence<T> * arr1 = new ArraySecuence<T>()) override{
-        ArraySecuence<T>* sumarr = new ArraySecuence(arr1->GetLength() + this->GetLength());
+        ArraySecuence<T>* sumarr = new ArraySecuence();
         for (int i = 0; i < arr1->GetLength(); i++) {
             sumarr->Append(arr1->GetIndex(i));
         }
-        for (int i = arr1->GetLength(); i < this->GetLength(); i++) {
+        for (int i = arr1->GetLength(); i < this->GetLength()+arr1->GetLength(); i++) {
             sumarr->Append(this->GetIndex(i - arr1->GetLength()));
         }
         return sumarr;

@@ -6,7 +6,9 @@
 #include "Secuence.h"
 #include "LinkedListSecuence.h"
 #include "ArraySecuence.h"
+#include "Complex.h"
 #include <iostream>
+#include <cmath>
 
 template<class T, class Container = ArraySecuence<T>>
 class Vector {
@@ -39,20 +41,12 @@ public:
         return sec->GetLength();
     }
 
-    Vector<T, Container> operator+(const Vector<T, Container> * vector) {
-        if (sec->GetLength() != vector->GetLength()) {
-            std::cout << "impossible to summ" << std::endl;
-            return nullptr;
-        }
-        else {
-            // todo ошибка
-            Vector<T, Container> sum = new Vector<T, Container>();
+    Vector<T, Container> operator+(const Vector<T, Container> vector) {
+            Vector<T, Container> sum = Vector<T, Container>();
             for (int i = 0; i < sec->GetLength(); i++) {
-                // todo Attend
-                Append(sec->GetIndex(i) + vector->GetIndex(i));
+                sum.Attend(sec->GetIndex(i) + vector.GetIndex(i));
             }
             return sum;
-        }
     }
 
     Vector<T, Container> operator*(int scalar) {
@@ -66,24 +60,28 @@ public:
     T Norm() {
         T norm = 0;
         for (int i = 0; i < sec->GetLength(); i++) {
-            norm = norm + sqr(sec->GetIndex(i));
+            norm = norm + (sec->GetIndex(i)) * (sec->GetIndex(i));
         }
         return sqrt(norm);
     }
 
-    T operator*(const Vector<T, Container> * vector) {
-        if (sec->GetLength() != vector->GetLength()) {
+    T operator*(const Vector<T, Container> vector) {
+        if (sec->GetLength() != vector.GetLength()) {
             std::cout << "impossible to multiply" << std::endl;
             return nullptr;
         }
         else {
             T sum = 0;
             for (int i = 0; i < sec->GetLength(); i++) {
-                sum = sum + (sec->GetIndex(i) * vector->GetIndex(i));
+                sum = sum + (sec->GetIndex(i) * vector.GetIndex(i));
             }
             return sum;
         }
     }
+    friend std::ostream& operator<<(std::ostream &out, Vector<T, Container> arr) {
+        out << arr.sec->ToString();
+        return out;
+    };
 };
 
 
