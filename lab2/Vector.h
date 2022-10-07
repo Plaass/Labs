@@ -28,20 +28,30 @@ public:
     T & GetFirst() {
         return sec->GetFirst();
     };
+    const T & GetFirst() const{
+        return sec->GetFirst();
+    };
 
     T & GetLast() {
         return sec->GetLast();
     }
-
+    const T & GetLast() const {
+        return sec->GetLast();
+    }
     T & GetIndex(int index) {
         return sec->GetIndex(index);
     };
-
-    int GetLength() {
+    const T & GetIndex(int index) const{
+        return sec->GetIndex(index);
+    };
+    int GetLength(){
+        return sec->GetLength();
+    }
+    const int GetLength() const{
         return sec->GetLength();
     }
 
-    Vector<T, Container> operator+(const Vector<T, Container> vector) {
+    Vector<T, Container> operator+(const Vector<T, Container> & vector) {
             Vector<T, Container> sum = Vector<T, Container>();
             for (int i = 0; i < sec->GetLength(); i++) {
                 sum.Attend(sec->GetIndex(i) + vector.GetIndex(i));
@@ -65,23 +75,20 @@ public:
         return sqrt(norm);
     }
 
-    T operator*(const Vector<T, Container> vector) {
-        if (sec->GetLength() != vector.GetLength()) {
-            std::cout << "impossible to multiply" << std::endl;
-            return nullptr;
-        }
-        else {
+    T operator*(const Vector<T, Container> & vector) {
             T sum = 0;
             for (int i = 0; i < sec->GetLength(); i++) {
                 sum = sum + (sec->GetIndex(i) * vector.GetIndex(i));
             }
             return sum;
-        }
     }
-    friend std::ostream& operator<<(std::ostream &out, Vector<T, Container> arr) {
-        out << arr.sec->ToString();
-        return out;
-    };
+    friend std::ostream& operator<<(std::ostream &out, Vector<T, Container> arr);
+};
+
+template<class T, class Container = ArraySecuence<T>>
+std::ostream& operator<<(std::ostream &out, Vector<T, Container> arr) {
+    out << arr.sec->ToString();
+    return out;
 };
 
 
