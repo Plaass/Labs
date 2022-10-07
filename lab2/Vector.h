@@ -10,6 +10,16 @@
 #include <iostream>
 #include <cmath>
 
+template<class T, class Container>
+class Vector;
+
+template<class T, class Container>
+std::ostream& operator<<(std::ostream &out, Vector<T, Container> arr) {
+    out << arr.sec->ToString();
+    return out;
+}
+
+
 template<class T, class Container = ArraySecuence<T>>
 class Vector {
 private:
@@ -82,13 +92,7 @@ public:
             }
             return sum;
     }
-    friend std::ostream& operator<<(std::ostream &out, Vector<T, Container> arr);
-};
-
-template<class T, class Container = ArraySecuence<T>>
-std::ostream& operator<<(std::ostream &out, Vector<T, Container> arr) {
-    out << arr.sec->ToString();
-    return out;
+    friend std::ostream& operator<<<T>(std::ostream &, Vector<T, Container>);
 };
 
 
