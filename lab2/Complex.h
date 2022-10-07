@@ -3,17 +3,6 @@
 
 #include <iostream>
 
-class Complex;
-
-std::ostream& operator<<(std::ostream &out, Complex c) {
-    if (c.im >= 0) {
-        out << c.re << "+" << c.im << "i";
-    }
-    else {
-        out << c.re << c.im << "i";
-    }
-    return out;
-};
 
 class Complex {
 private:
@@ -64,9 +53,18 @@ public:
     friend Complex sqrt(Complex c) {
         return c;
     }
-    friend std::ostream& operator<<(std::ostream &, Complex);
+    friend std::ostream& operator<<(std::ostream &, const Complex &);
 };
 
+std::ostream& operator<<(std::ostream &out, const Complex & c) {
+    if (c.im >= 0) {
+        out << c.re << "+" << c.im << "i";
+    }
+    else {
+        out << c.re << c.im << "i";
+    }
+    return out;
+};
 
 
 

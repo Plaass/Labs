@@ -92,7 +92,7 @@ public:
             }
             return sum;
     }
-    friend std::ostream& operator<<<T>(std::ostream &, Vector<T, Container>);
+    friend std::ostream& operator<<<T>(std::ostream &, Vector);
 };
 
 
