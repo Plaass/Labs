@@ -17,9 +17,8 @@ public:
         return im;
     }
     Complex (int n) {
-        Complex c = Complex();
-        c.Re() = n;
-        c.Im() = 0;
+        re = n;
+        im = 0;
     }
     Complex operator+(Complex n) {
         Complex sum =Complex();

@@ -33,7 +33,7 @@ public:
         sec->Prepend(element);
     };
     void InsertAt(const T & item, int index){
-        sec->InsertAt(index, item);
+        sec->InsertAt(item, index);
     };
     T & GetFirst() {
         return sec->GetFirst();
