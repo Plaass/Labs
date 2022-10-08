@@ -72,7 +72,7 @@ int main() {
                     int N;
                     std::cin >> N;
                     for (int i = 0; i < N; i++) {
-                        std::cin >> element.Im() >> element.Re();
+                        std::cin >> element.Re() >> element.Im();
                         list->Append(element);
                     }
                     std::cout << "Let's start checking the functions using the null element: " << std::endl;
@@ -155,7 +155,7 @@ int main() {
                     int N;
                     std::cin >> N;
                     for (int i = 0; i < N; i++) {
-                        std::cin >> element.Im() >> element.Re();
+                        std::cin >> element.Re() >> element.Im();
                         list->Append(element);
                     }
                     std::cout << "Let's start checking the functions using the null element: " << std::endl;
