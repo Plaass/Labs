@@ -75,6 +75,7 @@ public:
         for (int i = 0; i < len; i++) {
             tmp[i] = arr[i];
         }
+        delete [] arr;
         arr = tmp;
         len = new_len;
         buffer_len = new_len * 2;
