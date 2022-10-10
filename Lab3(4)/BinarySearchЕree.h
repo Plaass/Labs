@@ -47,7 +47,6 @@ private:
         explicit Node(T element): left(nullptr), right(nullptr), value(element) {};
     };
     Node* root;
-    int len;
 public:
     BinarySearchTree(): root(nullptr), len(0) {};
     ~BinarySearchTree() {
@@ -59,7 +58,7 @@ public:
         Node* tmp;
         Queue<Node*> queue = Queue<Node*>();
         queue.Put(root);
-        for (int i = 0; i < len; i++) {
+        while (tmp != nullptr) {
             tmp = queue.Pop();
             if (tmp != nullptr) {
                 str << tmp -> value << " ";
@@ -121,7 +120,7 @@ public:
     BinarySearchTree<T> where(bool (*function)(T element)) {
 
     }
-    bool Search(T element) {
+    bool Search(const T & element) {
         bool flag = false;
         Node* tmp = root;
         while (!flag) {
@@ -143,6 +142,35 @@ public:
         }
         return flag;
     }
+    BinarySearchTree<T> GetSubTree(const T & element) {
+        BinarySearchTree<T> tree;
+        if (Search(element)) {
+            Node* tmp = root;
+            while (true) {
+                if (element < tmp ->value) {
+                    if (tmp->left != nullptr) {
+                        tmp = tmp->left;
+                    }
+                    else break;
+                }
+                else if (element > tmp ->value) {
+                    if (tmp->right != nullptr) {
+                        tmp = tmp->right;
+                    }
+                    else break;
+                }
+                else if (element == tmp ->value) {
+                    tree.root = tmp;
+                    break;
+                }
+            }
+            return tree;
+        }
+        else {
+            throw std::out_of_range("HaveNoElement");
+        }
+    }
+
 };
 
 
