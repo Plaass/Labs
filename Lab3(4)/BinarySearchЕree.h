@@ -48,9 +48,48 @@ private:
     };
     Node* root;
 public:
-    BinarySearchTree(): root(nullptr), len(0) {};
+    BinarySearchTree(): root(nullptr) {};
     ~BinarySearchTree() {
         delete [] root;
+    }
+    BinarySearchTree(const BinarySearchTree<T> & tree) {
+        Node* tmp;
+        delete [] root;
+        root = nullptr;
+        Queue<Node*> queue = Queue<Node*>();
+        queue.Put(tree.root);
+        while (tmp != nullptr) {
+            tmp = queue.Pop();
+            if (tmp != nullptr) {
+                this->Put(tmp -> value);
+                if (tmp -> right != nullptr) {
+                    queue.Put(tmp -> right);
+                }
+                if (tmp -> left != nullptr) {
+                    queue.Put(tmp -> left);
+                }
+            }
+        }
+    }
+    BinarySearchTree<T> & operator=(const BinarySearchTree<T> & tree) {
+        Node* tmp;
+        delete [] root;
+        root = nullptr;
+        Queue<Node*> queue = Queue<Node*>();
+        queue.Put(tree.root);
+        while (tmp != nullptr) {
+            tmp = queue.Pop();
+            if (tmp != nullptr) {
+                this->Put(tmp -> value);
+                if (tmp -> right != nullptr) {
+                    queue.Put(tmp -> right);
+                }
+                if (tmp -> left != nullptr) {
+                    queue.Put(tmp -> left);
+                }
+            }
+        }
+        return *this;
     }
     void WidthTraversal() {
         std::ostringstream str;
@@ -115,10 +154,71 @@ public:
         }
     }
     BinarySearchTree<T> map(T (*function)(T element)) {
-
+        Node* tmp;
+        BinarySearchTree<T> tree;
+        Queue<Node*> queue = Queue<Node*>();
+        queue.Put(root);
+        while (tmp != nullptr) {
+            tmp = queue.Pop();
+            if (tmp != nullptr) {
+                tree.Put(function(tmp -> value));
+                if (tmp -> right != nullptr) {
+                    queue.Put(tmp -> right);
+                }
+                if (tmp -> left != nullptr) {
+                    queue.Put(tmp -> left);
+                }
+            }
+        }
+        return tree;
     }
     BinarySearchTree<T> where(bool (*function)(T element)) {
-
+        Node* tmp;
+        BinarySearchTree<T> tree;
+        Queue<Node*> queue = Queue<Node*>();
+        queue.Put(root);
+        while (tmp != nullptr) {
+            tmp = queue.Pop();
+            if (tmp != nullptr) {
+                if (function(tmp->value)) {
+                    tree.Put(tmp->value);
+                }
+                if (tmp -> right != nullptr) {
+                    queue.Put(tmp -> right);
+                }
+                if (tmp -> left != nullptr) {
+                    queue.Put(tmp -> left);
+                }
+            }
+        }
+        return tree;
+    }
+    void Put(const T & element) {
+        if (root != nullptr) {
+            Node *tmp = root;
+            while (true) {
+                if (tmp->value > element) {
+                    if (tmp->left == nullptr) {
+                        tmp->left = new Node(element);
+                        break;
+                    } else {
+                        tmp = tmp->left;
+                    }
+                } else if (tmp->value < element) {
+                    if (tmp->right == nullptr) {
+                        tmp->right = new Node(element);
+                        break;
+                    } else {
+                        tmp = tmp->right;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        else {
+            root = new Node(element);
+        }
     }
     bool Search(const T & element) {
         bool flag = false;
@@ -143,7 +243,7 @@ public:
         return flag;
     }
     BinarySearchTree<T> GetSubTree(const T & element) {
-        BinarySearchTree<T> tree;
+        BinarySearchTree<T> tmp_tree;
         if (Search(element)) {
             Node* tmp = root;
             while (true) {
@@ -160,17 +260,69 @@ public:
                     else break;
                 }
                 else if (element == tmp ->value) {
-                    tree.root = tmp;
+                    tmp_tree.root = tmp;
                     break;
                 }
             }
-            return tree;
+            return BinarySearchTree<T>(tmp_tree.map);
         }
         else {
             throw std::out_of_range("HaveNoElement");
         }
     }
-
+    bool SearchSubTree(const BinarySearchTree<T> & subtree) {
+        if (Search(subtree.root->value)) {
+            BinarySearchTree<T> tree = GetSubTree(subtree.root->value);
+            Node* tmp_Verifiable;
+            Node* tmp_Verifier;
+            Queue<Node*> queue_Verifiable = Queue<Node*>();
+            Queue<Node*> queue_Verifier= Queue<Node*>();
+            queue_Verifiable.Put(subtree.root);
+            queue_Verifier.Put(tree.root);
+            while (tmp_Verifiable == tmp_Verifier) {
+                tmp_Verifier = queue_Verifier.Pop();
+                tmp_Verifiable = queue_Verifiable.Pop();
+                if (tmp_Verifier != nullptr && tmp_Verifiable != nullptr) {
+                    if (tmp_Verifier -> right != nullptr) {
+                        queue_Verifier.Put(tmp_Verifier -> right);
+                    }
+                    if (tmp_Verifiable -> right != nullptr) {
+                        queue_Verifiable.Put(tmp_Verifiable -> right);
+                    }
+                    if (tmp_Verifier -> left != nullptr) {
+                        queue_Verifier.Put(tmp_Verifier -> left);
+                    }
+                    if (tmp_Verifiable -> left != nullptr) {
+                        queue_Verifiable.Put(tmp_Verifiable -> left);
+                    }
+                }
+                else if (tmp_Verifier == nullptr && tmp_Verifiable == nullptr) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        else {
+            return false;
+        }
+    }
+    void Merge(BinarySearchTree<T> tree) {
+        Node* tmp;
+        Queue<Node*> queue = Queue<Node*>();
+        queue.Put(tree.root);
+        while (tmp != nullptr) {
+            tmp = queue.Pop();
+            if (tmp != nullptr) {
+                (*this).Put(tmp->value);
+                if (tmp -> right != nullptr) {
+                    queue.Put(tmp -> right);
+                }
+                if (tmp -> left != nullptr) {
+                    queue.Put(tmp -> left);
+                }
+            }
+        }
+    }
 };
 
 
