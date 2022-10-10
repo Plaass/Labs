@@ -121,7 +121,28 @@ public:
     BinarySearchTree<T> where(bool (*function)(T element)) {
 
     }
-
+    bool Search(T element) {
+        bool flag = false;
+        Node* tmp = root;
+        while (!flag) {
+            if (element < tmp ->value) {
+                if (tmp->left != nullptr) {
+                    tmp = tmp->left;
+                }
+                else break;
+            }
+            else if (element > tmp ->value) {
+                if (tmp->right != nullptr) {
+                    tmp = tmp->right;
+                }
+                else break;
+            }
+            else if (element == tmp ->value) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
 };
 
 
