@@ -2,6 +2,7 @@
 #define MAIN_CPP_BINARYSEARCHЕREE_H
 
 #include <iostream>
+#include <sstream>
 
 template <class T>
 class Queue {
@@ -27,6 +28,7 @@ public:
         }
     };
     T Pop() {
+        if (head -> next == nullptr) return nullptr;
         Node* tmp = head;
         head = head -> next;
         delete [] tmp;
@@ -44,19 +46,82 @@ private:
         T value;
         explicit Node(T element): left(nullptr), right(nullptr), value(element) {};
     };
-    Node* head;
+    Node* root;
     int len;
 public:
-    BinarySearchTree(): head(nullptr), len(0) {};
+    BinarySearchTree(): root(nullptr), len(0) {};
     ~BinarySearchTree() {
-        delete [] head;
+        delete [] root;
     }
     void WidthTraversal() {
-        for ()
+        std::ostringstream str;
+        str << "{ ";
+        Node* tmp;
+        Queue<Node*> queue = Queue<Node*>();
+        queue.Put(root);
+        for (int i = 0; i < len; i++) {
+            tmp = queue.Pop();
+            if (tmp != nullptr) {
+                str << tmp -> value << " ";
+                if (tmp -> right != nullptr) {
+                    queue.Put(tmp -> right);
+                }
+                if (tmp -> left != nullptr) {
+                    queue.Put(tmp -> left);
+                }
+            }
+        }
+        std::cout << str.str() << "}" << std::endl;
+    }
+    void LNR (Node* node) {
+        if (node != nullptr) {
+            LKP(node->left);
+            std::cout << node -> value << std::endl;
+            LKP(node->right);
+        }
+    }
+    void LRN (Node* node) {
+        if (node != nullptr) {
+            LKP(node->left);
+            LKP(node->right);
+            std::cout << node -> value << std::endl;
+        }
+    }
+    void NLR (Node* node) {
+        if (node != nullptr) {
+            std::cout << node -> value << std::endl;
+            LKP(node->left);
+            LKP(node->right);
+        }
+    }
+    void NRL (Node* node) {
+        if (node != nullptr) {
+            std::cout << node -> value << std::endl;
+            LKP(node->right);
+            LKP(node->left);
+        }
+    }
+    void RLN (Node* node) {
+        if (node != nullptr) {
+            LKP(node->right);
+            LKP(node->left);
+            std::cout << node -> value << std::endl;
+        }
+    }
+    void RNL (Node* node) {
+        if (node != nullptr) {
+            LKP(node->right);
+            std::cout << node -> value << std::endl;
+            LKP(node->left);
+        }
     }
     BinarySearchTree<T> map(T (*function)(T element)) {
 
     }
+    BinarySearchTree<T> where(bool (*function)(T element)) {
+
+    }
+
 };
 
 
