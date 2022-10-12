@@ -111,6 +111,25 @@ public:
         }
         std::cout << str.str() << "}" << std::endl;
     }
+    std::string ToString() {
+        std::ostringstream str;
+        Node* tmp;
+        Queue<Node*> queue = Queue<Node*>();
+        queue.Put(root);
+        while (tmp != nullptr) {
+            tmp = queue.Pop();
+            if (tmp != nullptr) {
+                str << tmp -> value;
+                if (tmp -> right != nullptr) {
+                    queue.Put(tmp -> right);
+                }
+                if (tmp -> left != nullptr) {
+                    queue.Put(tmp -> left);
+                }
+            }
+        }
+        return str.str();
+    }
     void LNR (Node* node) {
         if (node != nullptr) {
             LKP(node->left);
@@ -152,6 +171,53 @@ public:
             std::cout << node -> value << std::endl;
             LKP(node->left);
         }
+    }
+    void LNR_ToString (Node* node, std::ostringstream &out) {
+        if (node != nullptr) {
+            LKP(node->left);
+            out << node -> value;
+            LKP(node->right);
+        }
+    }
+    void LRN_ToString (Node* node, std::ostringstream &out) {
+        if (node != nullptr) {
+            LKP(node->left);
+            LKP(node->right);
+            out << node -> value;
+        }
+    }
+    void NLR_ToString (Node* node, std::ostringstream &out) {
+        if (node != nullptr) {
+            out << node -> value;
+            LKP(node->left);
+            LKP(node->right);
+        }
+    }
+    void NRL_ToString (Node* node, std::ostringstream &out) {
+        if (node != nullptr) {
+            out << node -> value;
+            LKP(node->right);
+            LKP(node->left);
+        }
+    }
+    void RLN_ToString (Node* node, std::ostringstream &out) {
+        if (node != nullptr) {
+            LKP(node->right);
+            LKP(node->left);
+            out << node -> value;
+        }
+    }
+    void RNL_ToString (Node* node, std::ostringstream &out) {
+        if (node != nullptr) {
+            LKP(node->right);
+            out << node -> value;
+            LKP(node->left);
+        }
+    }
+    std::string ToString(void (*function)(Node*, std::ostringstream&)) {
+        std::ostringstream str;
+        function(root, str);
+        return str.str();
     }
     BinarySearchTree<T> map(T (*function)(T element)) {
         Node* tmp;
@@ -321,6 +387,73 @@ public:
                     queue.Put(tmp -> left);
                 }
             }
+        }
+    }
+    const T & GetRoot() {
+        return root->value;
+    }
+    T Way(const std::string & way) {
+        char i = way[0];
+        if (root == nullptr) {
+            throw std::out_of_range{"way_out_of_range"};
+        }
+        Node* tmp = root;
+        while (i != '\0') {
+            if (i == 'R') {
+                if (tmp -> right == nullptr) {
+                    throw std::out_of_range{"way_out_of_range"};
+                }
+                tmp = tmp->right;
+            }
+            else if (i == 'L') {
+                if (tmp -> left == nullptr) {
+                    throw std::out_of_range{"way_out_of_range"};
+                }
+                tmp = tmp->left;
+            }
+        }
+        return tmp -> value;
+    }
+    T Way(const T & element, const std::string & way) {
+        bool flag = false;
+        Node* tmp_start = root;
+        while (!flag) {
+            if (element < tmp_start ->value) {
+                if (tmp_start->left != nullptr) {
+                    tmp_start = tmp_start->left;
+                }
+                else break;
+            }
+            else if (element > tmp_start ->value) {
+                if (tmp_start->right != nullptr) {
+                    tmp_start = tmp_start->right;
+                }
+                else break;
+            }
+            else if (element == tmp_start ->value) {
+                flag = true;
+            }
+        }
+        if (flag) {
+            char i = way[0];
+            Node *tmp = tmp_start;
+            while (i != '\0') {
+                if (i == 'R') {
+                    if (tmp->right == nullptr) {
+                        throw std::out_of_range{"way_out_of_range"};
+                    }
+                    tmp = tmp->right;
+                } else if (i == 'L') {
+                    if (tmp->left == nullptr) {
+                        throw std::out_of_range{"way_out_of_range"};
+                    }
+                    tmp = tmp->left;
+                }
+            }
+            return tmp->value;
+        }
+        else {
+            throw std::invalid_argument{"Bad_element"};
         }
     }
 };
