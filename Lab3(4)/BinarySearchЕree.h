@@ -392,8 +392,9 @@ public:
     const T & GetRoot() {
         return root->value;
     }
-    T Way(const std::string & way) {
+    const T & Way(const std::string & way) {
         char i = way[0];
+        int counter = 0;
         if (root == nullptr) {
             throw std::out_of_range{"way_out_of_range"};
         }
@@ -411,10 +412,12 @@ public:
                 }
                 tmp = tmp->left;
             }
+            counter++;
+            i = way[counter];
         }
         return tmp -> value;
     }
-    T Way(const T & element, const std::string & way) {
+    const T & Way(const T & element, const std::string & way) {
         bool flag = false;
         Node* tmp_start = root;
         while (!flag) {
@@ -436,6 +439,7 @@ public:
         }
         if (flag) {
             char i = way[0];
+            int counter = 0;
             Node *tmp = tmp_start;
             while (i != '\0') {
                 if (i == 'R') {
@@ -449,6 +453,8 @@ public:
                     }
                     tmp = tmp->left;
                 }
+                counter++;
+                i = way[counter];
             }
             return tmp->value;
         }
