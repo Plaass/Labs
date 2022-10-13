@@ -3,38 +3,8 @@
 
 #include <iostream>
 #include <sstream>
-
-template <class T>
-class Queue {
-private:
-    class Node{
-    public:
-        Node* next;
-        T value;
-        explicit Node(const T & element): next(nullptr), value(element) {};
-    };
-    Node* head;
-    Node* tail;
-public:
-    Queue(): head(nullptr), tail(nullptr) {};
-    ~Queue() {
-        delete [] head;
-    }
-    void Put(const T & element) {
-        if (head == nullptr) {
-            head = new Node(0);
-            tail = new Node(element);
-            head -> next = tail;
-        }
-    };
-    T Pop() {
-        if (head -> next == nullptr) return nullptr;
-        Node* tmp = head;
-        head = head -> next;
-        delete [] tmp;
-        return head -> value;
-    }
-};
+#include <functional>
+#include "Queue.h"
 
 template <class T>
 class BinarySearchTree {
@@ -56,51 +26,26 @@ public:
         Node* tmp;
         delete [] root;
         root = nullptr;
-        Queue<Node*> queue = Queue<Node*>();
-        queue.Put(tree.root);
-        while (tmp != nullptr) {
-            tmp = queue.Pop();
-            if (tmp != nullptr) {
-                this->Put(tmp -> value);
-                if (tmp -> right != nullptr) {
-                    queue.Put(tmp -> right);
-                }
-                if (tmp -> left != nullptr) {
-                    queue.Put(tmp -> left);
-                }
-            }
-        }
+        tree.WidthTraversal([this](T a) {
+            this->Put(a);
+        });
     }
     BinarySearchTree<T> & operator=(const BinarySearchTree<T> & tree) {
-        Node* tmp;
         delete [] root;
         root = nullptr;
-        Queue<Node*> queue = Queue<Node*>();
-        queue.Put(tree.root);
-        while (tmp != nullptr) {
-            tmp = queue.Pop();
-            if (tmp != nullptr) {
-                this->Put(tmp -> value);
-                if (tmp -> right != nullptr) {
-                    queue.Put(tmp -> right);
-                }
-                if (tmp -> left != nullptr) {
-                    queue.Put(tmp -> left);
-                }
-            }
-        }
+        tree.WidthTraversal([this](T a) {
+            this->Put(a);
+        });
         return *this;
     }
-    void WidthTraversal() {
-        std::ostringstream str;
-        str << "{ ";
+    void WidthTraversal(std::function<void(T)> callback) {
         Node* tmp;
         Queue<Node*> queue = Queue<Node*>();
         queue.Put(root);
         while (tmp != nullptr) {
             tmp = queue.Pop();
             if (tmp != nullptr) {
-                str << tmp -> value << " ";
+                callback(tmp -> value);
                 if (tmp -> right != nullptr) {
                     queue.Put(tmp -> right);
                 }
@@ -109,154 +54,163 @@ public:
                 }
             }
         }
-        std::cout << str.str() << "}" << std::endl;
     }
-    std::string ToString() {
-        std::ostringstream str;
-        Node* tmp;
-        Queue<Node*> queue = Queue<Node*>();
-        queue.Put(root);
-        while (tmp != nullptr) {
-            tmp = queue.Pop();
-            if (tmp != nullptr) {
-                str << tmp -> value;
-                if (tmp -> right != nullptr) {
-                    queue.Put(tmp -> right);
-                }
-                if (tmp -> left != nullptr) {
-                    queue.Put(tmp -> left);
-                }
+    bool CheckingSearching() {
+        bool flag = true;
+        CheckingSearching(nullptr, nullptr, root, flag);
+        return flag;
+    }
+private:
+    void CheckingSearching(Node* left, Node* right, Node* node, bool& flag) {
+        if (left == nullptr && right == nullptr) {
+            if (root -> left != nullptr) {
+                CheckingSearching(nullptr, root, root->left, flag);
+            }
+            if (root -> right != nullptr) {
+                CheckingSearching(root, nullptr, root->right, flag);
             }
         }
-        return str.str();
-    }
-    void LNR (Node* node) {
-        if (node != nullptr) {
-            LKP(node->left);
-            std::cout << node -> value << std::endl;
-            LKP(node->right);
+        else if (left == nullptr) {
+            if (node -> value > right -> value) {
+                flag = false;
+            }
+            if (node -> left != nullptr) {
+                CheckingSearching(nullptr, node, node->left, flag);
+            }
+            if (node -> right != nullptr) {
+                CheckingSearching(node, right, node->right, flag);
+            }
+        }
+        else if (right == nullptr) {
+            if (node -> value < left -> value) {
+                flag = false;
+            }
+            if (node -> left != nullptr) {
+                CheckingSearching(left, node, node->left, flag);
+            }
+            if (node -> right != nullptr) {
+                CheckingSearching(node, nullptr, node->right, flag);
+            }
+        }
+        else {
+            if (node -> value < left -> value || node -> value > right -> value) {
+                flag = false;
+            }
+            if (node -> left != nullptr) {
+                CheckingSearching(left, node, node->left, flag);
+            }
+            if (node -> right != nullptr) {
+                CheckingSearching(node, right, node->right, flag);
+            }
         }
     }
-    void LRN (Node* node) {
+    void LNR (Node* node, std::function<void(T)> callback) {
         if (node != nullptr) {
-            LKP(node->left);
-            LKP(node->right);
-            std::cout << node -> value << std::endl;
+            LNR(node->left, callback);
+            callback(node -> value);
+            LNR(node->right, callback);
         }
     }
-    void NLR (Node* node) {
+    void LRN (Node* node, std::function<void(T)> callback) {
         if (node != nullptr) {
-            std::cout << node -> value << std::endl;
-            LKP(node->left);
-            LKP(node->right);
+            LRN(node->left, callback);
+            LRN(node->right, callback);
+            callback(node -> value);
         }
     }
-    void NRL (Node* node) {
+    void NLR (Node* node, std::function<void(T)> callback) {
         if (node != nullptr) {
-            std::cout << node -> value << std::endl;
-            LKP(node->right);
-            LKP(node->left);
+            callback(node -> value);
+            NLR(node->left, callback);
+            NLR(node->right, callback);
         }
     }
-    void RLN (Node* node) {
+    void NRL (Node* node, std::function<void(T)> callback) {
         if (node != nullptr) {
-            LKP(node->right);
-            LKP(node->left);
-            std::cout << node -> value << std::endl;
+            callback(node -> value);
+            NRL(node->right, callback);
+            NRL(node->left, callback);
         }
     }
-    void RNL (Node* node) {
+    void RLN (Node* node, std::function<void(T)> callback) {
         if (node != nullptr) {
-            LKP(node->right);
-            std::cout << node -> value << std::endl;
-            LKP(node->left);
+            RLN(node->right, callback);
+            RLN(node->left, callback);
+            callback(node -> value);
         }
     }
-    void LNR_ToString (Node* node, std::ostringstream &out) {
+    void RNL (Node* node, std::function<void(T)> callback) {
         if (node != nullptr) {
-            LKP(node->left);
-            out << node -> value;
-            LKP(node->right);
+            RNL(node->right, callback);
+            callback(node -> value);
+            RNL(node->left, callback);
         }
     }
-    void LRN_ToString (Node* node, std::ostringstream &out) {
-        if (node != nullptr) {
-            LKP(node->left);
-            LKP(node->right);
-            out << node -> value;
+public:
+    void LNR (std::function<void(T)> callback) {
+        if (root != nullptr) {
+            LNR(root->left, callback);
+            callback(root -> value);
+            LNR(root->right, callback);
         }
     }
-    void NLR_ToString (Node* node, std::ostringstream &out) {
-        if (node != nullptr) {
-            out << node -> value;
-            LKP(node->left);
-            LKP(node->right);
+    void LRN (std::function<void(T)> callback) {
+        if (root != nullptr) {
+            LRN(root->left, callback);
+            LRN(root->right, callback);
+            callback(root -> value);
         }
     }
-    void NRL_ToString (Node* node, std::ostringstream &out) {
-        if (node != nullptr) {
-            out << node -> value;
-            LKP(node->right);
-            LKP(node->left);
+    void NLR (std::function<void(T)> callback) {
+        if (root != nullptr) {
+            callback(root -> value);
+            NLR(root->left, callback);
+            NLR(root->right, callback);
         }
     }
-    void RLN_ToString (Node* node, std::ostringstream &out) {
-        if (node != nullptr) {
-            LKP(node->right);
-            LKP(node->left);
-            out << node -> value;
+    void NRL (std::function<void(T)> callback) {
+        if (root != nullptr) {
+            callback(root -> value);
+            NRL(root->right, callback);
+            NRL(root->left, callback);
         }
     }
-    void RNL_ToString (Node* node, std::ostringstream &out) {
-        if (node != nullptr) {
-            LKP(node->right);
-            out << node -> value;
-            LKP(node->left);
+    void RLN (std::function<void(T)> callback) {
+        if (root != nullptr) {
+            RLN(root->right, callback);
+            RLN(root->left, callback);
+            callback(root -> value);
         }
     }
-    std::string ToString(void (*function)(Node*, std::ostringstream&)) {
+    void RNL (std::function<void(T)> callback) {
+        if (root != nullptr) {
+            RNL(root->right, callback);
+            callback(root -> value);
+            RNL(root->left, callback);
+        }
+    }
+public:
+    std::string ToString(std::function<void(std::function<void(T)>)> Traversal) {
         std::ostringstream str;
-        function(root, str);
+        Traversal([&str](T a){
+           str << a;
+        });
         return str.str();
     }
-    BinarySearchTree<T> map(T (*function)(T element)) {
-        Node* tmp;
+    BinarySearchTree<T> map(std::function<T(T)> changing) {
         BinarySearchTree<T> tree;
-        Queue<Node*> queue = Queue<Node*>();
-        queue.Put(root);
-        while (tmp != nullptr) {
-            tmp = queue.Pop();
-            if (tmp != nullptr) {
-                tree.Put(function(tmp -> value));
-                if (tmp -> right != nullptr) {
-                    queue.Put(tmp -> right);
-                }
-                if (tmp -> left != nullptr) {
-                    queue.Put(tmp -> left);
-                }
-            }
-        }
+        WidthTraversal([tree, changing](T a) {
+            tree.Put(changing(a));
+        });
         return tree;
     }
-    BinarySearchTree<T> where(bool (*function)(T element)) {
-        Node* tmp;
+    BinarySearchTree<T> where(std::function<bool(T)> filter) {
         BinarySearchTree<T> tree;
-        Queue<Node*> queue = Queue<Node*>();
-        queue.Put(root);
-        while (tmp != nullptr) {
-            tmp = queue.Pop();
-            if (tmp != nullptr) {
-                if (function(tmp->value)) {
-                    tree.Put(tmp->value);
-                }
-                if (tmp -> right != nullptr) {
-                    queue.Put(tmp -> right);
-                }
-                if (tmp -> left != nullptr) {
-                    queue.Put(tmp -> left);
-                }
+        WidthTraversal([tree, filter](T a) {
+            if (filter(a)) {
+                tree.Put(a);
             }
-        }
+        });
         return tree;
     }
     void Put(const T & element) {
@@ -373,21 +327,9 @@ public:
         }
     }
     void Merge(BinarySearchTree<T> tree) {
-        Node* tmp;
-        Queue<Node*> queue = Queue<Node*>();
-        queue.Put(tree.root);
-        while (tmp != nullptr) {
-            tmp = queue.Pop();
-            if (tmp != nullptr) {
-                (*this).Put(tmp->value);
-                if (tmp -> right != nullptr) {
-                    queue.Put(tmp -> right);
-                }
-                if (tmp -> left != nullptr) {
-                    queue.Put(tmp -> left);
-                }
-            }
-        }
+        tree.WidthTraversal([this](T a) {
+            (*this).Put(a);
+        });
     }
     const T & GetRoot() {
         return root->value;
@@ -462,6 +404,7 @@ public:
             throw std::invalid_argument{"Bad_element"};
         }
     }
+
 };
 
 
