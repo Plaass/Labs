@@ -38,7 +38,7 @@ public:
         });
         return *this;
     }
-    void WidthTraversal(std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
+    void WidthTraversal(std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
         Node* tmp;
         Queue<Node*> queue = Queue<Node*>();
         queue.Put(root);
