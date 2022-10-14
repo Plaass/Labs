@@ -53,4 +53,9 @@ int main() {
     std::cout << "tree.SearchSubTree(tree.GetSubTree(100)) and tree.SearchSubTree(tree.GetSubTree(0)): " << tree.SearchSubTree(tree.GetSubTree(100)) << " and " << tree.SearchSubTree(tree.GetSubTree(0)) << std::endl;
     std::cout << "tree.Merge(tree.GetSubTree(100)): ";
     tree.Merge(tree.GetSubTree(100));
+    tree.WidthTraversal();
+    std::cout << std::endl;
+    std::cout << "tree.GetRoot(): " << tree.GetRoot() << std::endl;
+    std::cout << "tree.Way(RLRR): " << tree.Way("RLRR") << std::endl;
+    std::cout << "tree.Way(100, RLRR): " << tree.Way(100,"RLRR") << std::endl;
 }
