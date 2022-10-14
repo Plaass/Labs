@@ -1,5 +1,5 @@
 #include <iostream>
-#include "BinarySearchЕree.h"
+#include "BinarySearchTree.h"
 
 int main() {
     std::cout << "Hello, World!" << std::endl;

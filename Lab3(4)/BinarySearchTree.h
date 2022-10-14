@@ -1,5 +1,5 @@
-#ifndef MAIN_CPP_BINARYSEARCHЕREE_H
-#define MAIN_CPP_BINARYSEARCHЕREE_H
+#ifndef MAIN_CPP_BINARYSEARCHTREE_H
+#define MAIN_CPP_BINARYSEARCHTREE_H
 
 #include <iostream>
 #include <sstream>
@@ -38,7 +38,7 @@ public:
         });
         return *this;
     }
-    void WidthTraversal(std::function<void(T)> callback) {
+    void WidthTraversal(std::function<void(T)> callback = [](T a){std::cout << a;}) {
         Node* tmp;
         Queue<Node*> queue = Queue<Node*>();
         queue.Put(root);
@@ -59,6 +59,13 @@ public:
         bool flag = true;
         CheckingSearching(nullptr, nullptr, root, flag);
         return flag;
+    }
+    void read(const std::istringstream & in) {
+        T element;
+        while (in) {
+            in >> element;
+            Put(element);
+        }
     }
 private:
     void CheckingSearching(Node* left, Node* right, Node* node, bool& flag) {
@@ -104,42 +111,42 @@ private:
             }
         }
     }
-    void LNR (Node* node, std::function<void(T)> callback) {
+    void LNR (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (node != nullptr) {
             LNR(node->left, callback);
             callback(node -> value);
             LNR(node->right, callback);
         }
     }
-    void LRN (Node* node, std::function<void(T)> callback) {
+    void LRN (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (node != nullptr) {
             LRN(node->left, callback);
             LRN(node->right, callback);
             callback(node -> value);
         }
     }
-    void NLR (Node* node, std::function<void(T)> callback) {
+    void NLR (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (node != nullptr) {
             callback(node -> value);
             NLR(node->left, callback);
             NLR(node->right, callback);
         }
     }
-    void NRL (Node* node, std::function<void(T)> callback) {
+    void NRL (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (node != nullptr) {
             callback(node -> value);
             NRL(node->right, callback);
             NRL(node->left, callback);
         }
     }
-    void RLN (Node* node, std::function<void(T)> callback) {
+    void RLN (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (node != nullptr) {
             RLN(node->right, callback);
             RLN(node->left, callback);
             callback(node -> value);
         }
     }
-    void RNL (Node* node, std::function<void(T)> callback) {
+    void RNL (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (node != nullptr) {
             RNL(node->right, callback);
             callback(node -> value);
@@ -147,49 +154,48 @@ private:
         }
     }
 public:
-    void LNR (std::function<void(T)> callback) {
+    void LNR (std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             LNR(root->left, callback);
             callback(root -> value);
             LNR(root->right, callback);
         }
     }
-    void LRN (std::function<void(T)> callback) {
+    void LRN (std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             LRN(root->left, callback);
             LRN(root->right, callback);
             callback(root -> value);
         }
     }
-    void NLR (std::function<void(T)> callback) {
+    void NLR (std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             callback(root -> value);
             NLR(root->left, callback);
             NLR(root->right, callback);
         }
     }
-    void NRL (std::function<void(T)> callback) {
+    void NRL (std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             callback(root -> value);
             NRL(root->right, callback);
             NRL(root->left, callback);
         }
     }
-    void RLN (std::function<void(T)> callback) {
+    void RLN (std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             RLN(root->right, callback);
             RLN(root->left, callback);
             callback(root -> value);
         }
     }
-    void RNL (std::function<void(T)> callback) {
+    void RNL (std::function<void(T)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             RNL(root->right, callback);
             callback(root -> value);
             RNL(root->left, callback);
         }
     }
-public:
     std::string ToString(std::function<void(std::function<void(T)>)> Traversal) {
         std::ostringstream str;
         Traversal([&str](T a){
@@ -213,7 +219,34 @@ public:
         });
         return tree;
     }
-    void Put(const T & element) {
+    void Put(const T & element) const{
+        if (root != nullptr) {
+            Node *tmp = root;
+            while (true) {
+                if (tmp->value > element) {
+                    if (tmp->left == nullptr) {
+                        tmp->left = new Node(element);
+                        break;
+                    } else {
+                        tmp = tmp->left;
+                    }
+                } else if (tmp->value < element) {
+                    if (tmp->right == nullptr) {
+                        tmp->right = new Node(element);
+                        break;
+                    } else {
+                        tmp = tmp->right;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        else {
+            root = new Node(element);
+        }
+    }
+    void Put(T element){
         if (root != nullptr) {
             Node *tmp = root;
             while (true) {
@@ -408,4 +441,4 @@ public:
 };
 
 
-#endif //MAIN_CPP_BINARYSEARCHЕREE_H
+#endif //MAIN_CPP_BINARYSEARCHTREE_H
