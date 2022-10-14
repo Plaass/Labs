@@ -50,7 +50,7 @@ int main() {
     std::cout << std::endl;
     std::cout << "tree.Search(100) tree.Search(0): " << tree.Search(100) << " " << tree.Search(0) << std::endl;
     std::cout << "tree.GetSubTree(100) and tree.GetSubTree(0): ";
-    tree2 = tree.GetSubTree(100);
+    tree2 = tree.GetSubTree(100); //?
     tree2.WidthTraversal();
     std::cout << " and ";
     tree2 = tree.GetSubTree(0);
