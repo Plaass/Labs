@@ -24,6 +24,11 @@ public:
             tail = new Node(element);
             head -> next = tail;
         }
+        else {
+            Node* tmp = new Node(element);
+            tail -> next = tmp;
+            tail = tmp;
+        }
     };
     T Pop() {
         if (head -> next == nullptr) return nullptr;

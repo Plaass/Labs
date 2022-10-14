@@ -38,7 +38,7 @@ public:
         });
         return *this;
     }
-    void WidthTraversal(std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
+    void WidthTraversal(std::function<void(const T &)> callback = [](const T & a){std::cout << a << " ";}) const {
         Node* tmp;
         Queue<Node*> queue = Queue<Node*>();
         queue.Put(root);
@@ -111,42 +111,42 @@ private:
             }
         }
     }
-    void LNR (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
+    void LNR (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a << " ";}) {
         if (node != nullptr) {
             LNR(node->left, callback);
             callback(node -> value);
             LNR(node->right, callback);
         }
     }
-    void LRN (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
+    void LRN (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a << " ";}) {
         if (node != nullptr) {
             LRN(node->left, callback);
             LRN(node->right, callback);
             callback(node -> value);
         }
     }
-    void NLR (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
+    void NLR (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a << " ";}) {
         if (node != nullptr) {
             callback(node -> value);
             NLR(node->left, callback);
             NLR(node->right, callback);
         }
     }
-    void NRL (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
+    void NRL (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a << " ";}) {
         if (node != nullptr) {
             callback(node -> value);
             NRL(node->right, callback);
             NRL(node->left, callback);
         }
     }
-    void RLN (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
+    void RLN (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a << " ";}) {
         if (node != nullptr) {
             RLN(node->right, callback);
             RLN(node->left, callback);
             callback(node -> value);
         }
     }
-    void RNL (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
+    void RNL (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a << " ";}) {
         if (node != nullptr) {
             RNL(node->right, callback);
             callback(node -> value);
@@ -154,42 +154,42 @@ private:
         }
     }
 public:
-    void LNR (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
+    void LNR (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
         if (root != nullptr) {
             LNR(root->left, callback);
             callback(root -> value);
             LNR(root->right, callback);
         }
     }
-    void LRN (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
+    void LRN (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
         if (root != nullptr) {
             LRN(root->left, callback);
             LRN(root->right, callback);
             callback(root -> value);
         }
     }
-    void NLR (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
+    void NLR (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
         if (root != nullptr) {
             callback(root -> value);
             NLR(root->left, callback);
             NLR(root->right, callback);
         }
     }
-    void NRL (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
+    void NRL (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
         if (root != nullptr) {
             callback(root -> value);
             NRL(root->right, callback);
             NRL(root->left, callback);
         }
     }
-    void RLN (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
+    void RLN (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
         if (root != nullptr) {
             RLN(root->right, callback);
             RLN(root->left, callback);
             callback(root -> value);
         }
     }
-    void RNL (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
+    void RNL (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
         if (root != nullptr) {
             RNL(root->right, callback);
             callback(root -> value);
@@ -262,7 +262,7 @@ public:
         return flag;
     }
     BinarySearchTree<T> GetSubTree(const T & element) {
-        BinarySearchTree<T> tmp_tree;
+        Node* sub_root;
         if (Search(element)) {
             Node* tmp = root;
             while (true) {
@@ -279,14 +279,17 @@ public:
                     else break;
                 }
                 else if (element == tmp ->value) {
-                    tmp_tree.root = tmp;
+                    sub_root = tmp;
                     break;
                 }
             }
-            return BinarySearchTree<T>(tmp_tree);
-        }
-        else {
-            throw std::out_of_range("HaveNoElement");
+            BinarySearchTree<T> tree;
+            BinarySearchTree<T> treeR;
+            tree.root = sub_root;
+            tree.WidthTraversal( [&treeR](const T & a){
+                treeR.Put(a);
+            });
+            return treeR;
         }
     }
     bool SearchSubTree(const BinarySearchTree<T> & subtree) {
@@ -398,9 +401,6 @@ public:
                 i = way[counter];
             }
             return tmp->value;
-        }
-        else {
-            throw std::invalid_argument{"Bad_element"};
         }
     }
 

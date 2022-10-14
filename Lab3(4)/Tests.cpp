@@ -3,6 +3,7 @@
 
 int main() {
     BinarySearchTree<int> tree;
+    BinarySearchTree<int> tree2;
     int N, element;
     std::cout << "Let me quantity of ellements and these elements: ";
     std::cin >> N;
@@ -32,23 +33,28 @@ int main() {
     tree.RLN();
     std::cout << std::endl;
     std::cout << "tree.map([](int a){return a/2;}).WidthTraversal(): ";
-    tree.map([](const int & a){
+    tree2 = tree.map([](int a){
         return a / 2;
-    }).WidthTraversal();
+    });
+    tree2.WidthTraversal();
     std::cout << std::endl;
     std::cout << "tree.filter([](int a){(bool)(a %= 2);}).WidthTraversal(): ";
-    tree.where([](const int & a){
+    tree2 = tree.where([](int a){
         return (bool)(a%2);
-    }).WidthTraversal();
+    });
+    tree2.WidthTraversal();
+    std::cout << std::endl;
     std::cout << "tree.Put(100): ";
     tree.Put(100);
     tree.WidthTraversal();
     std::cout << std::endl;
     std::cout << "tree.Search(100) tree.Search(0): " << tree.Search(100) << " " << tree.Search(0) << std::endl;
     std::cout << "tree.GetSubTree(100) and tree.GetSubTree(0): ";
-    tree.GetSubTree(100).WidthTraversal();
+    tree2 = tree.GetSubTree(100);
+    tree2.WidthTraversal();
     std::cout << " and ";
-    tree.GetSubTree(0).WidthTraversal();
+    tree2 = tree.GetSubTree(0);
+    tree2.WidthTraversal();
     std::cout << std::endl;
     std::cout << "tree.SearchSubTree(tree.GetSubTree(100)) and tree.SearchSubTree(tree.GetSubTree(0)): " << tree.SearchSubTree(tree.GetSubTree(100)) << " and " << tree.SearchSubTree(tree.GetSubTree(0)) << std::endl;
     std::cout << "tree.Merge(tree.GetSubTree(100)): ";
