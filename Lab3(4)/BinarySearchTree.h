@@ -22,7 +22,7 @@ public:
     ~BinarySearchTree() {
         delete [] root;
     }
-    BinarySearchTree(BinarySearchTree<int> tree) {
+    BinarySearchTree(const BinarySearchTree<T> & tree) {
         Node* tmp;
         delete [] root;
         root = nullptr;
@@ -326,7 +326,7 @@ public:
         }
     }
     void Merge(const BinarySearchTree<T> & tree) {
-        tree.WidthTraversal([this](T a) {
+        tree.WidthTraversal([this](const T & a) {
             (*this).Put(a);
         });
     }
