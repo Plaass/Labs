@@ -22,23 +22,23 @@ public:
     ~BinarySearchTree() {
         delete [] root;
     }
-    BinarySearchTree(const BinarySearchTree<T> & tree) {
+    BinarySearchTree(BinarySearchTree<int> tree) {
         Node* tmp;
         delete [] root;
         root = nullptr;
-        tree.WidthTraversal([this](T a) {
+        tree.WidthTraversal([this](const T & a) {
             this->Put(a);
         });
     }
     BinarySearchTree<T> & operator=(const BinarySearchTree<T> & tree) {
         delete [] root;
         root = nullptr;
-        tree.WidthTraversal([this](T a) {
+        tree.WidthTraversal([this](const T & a) {
             this->Put(a);
         });
         return *this;
     }
-    void WidthTraversal(std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void WidthTraversal(std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
         Node* tmp;
         Queue<Node*> queue = Queue<Node*>();
         queue.Put(root);
@@ -111,42 +111,42 @@ private:
             }
         }
     }
-    void LNR (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void LNR (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
         if (node != nullptr) {
             LNR(node->left, callback);
             callback(node -> value);
             LNR(node->right, callback);
         }
     }
-    void LRN (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void LRN (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
         if (node != nullptr) {
             LRN(node->left, callback);
             LRN(node->right, callback);
             callback(node -> value);
         }
     }
-    void NLR (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void NLR (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
         if (node != nullptr) {
             callback(node -> value);
             NLR(node->left, callback);
             NLR(node->right, callback);
         }
     }
-    void NRL (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void NRL (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
         if (node != nullptr) {
             callback(node -> value);
             NRL(node->right, callback);
             NRL(node->left, callback);
         }
     }
-    void RLN (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void RLN (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
         if (node != nullptr) {
             RLN(node->right, callback);
             RLN(node->left, callback);
             callback(node -> value);
         }
     }
-    void RNL (Node* node, std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void RNL (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a;}) {
         if (node != nullptr) {
             RNL(node->right, callback);
             callback(node -> value);
@@ -154,99 +154,65 @@ private:
         }
     }
 public:
-    void LNR (std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void LNR (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             LNR(root->left, callback);
             callback(root -> value);
             LNR(root->right, callback);
         }
     }
-    void LRN (std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void LRN (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             LRN(root->left, callback);
             LRN(root->right, callback);
             callback(root -> value);
         }
     }
-    void NLR (std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void NLR (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             callback(root -> value);
             NLR(root->left, callback);
             NLR(root->right, callback);
         }
     }
-    void NRL (std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void NRL (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             callback(root -> value);
             NRL(root->right, callback);
             NRL(root->left, callback);
         }
     }
-    void RLN (std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void RLN (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             RLN(root->right, callback);
             RLN(root->left, callback);
             callback(root -> value);
         }
     }
-    void RNL (std::function<void(T)> callback = [](T a){std::cout << a;}) {
+    void RNL (std::function<void(const T &)> callback = [](T a){std::cout << a;}) {
         if (root != nullptr) {
             RNL(root->right, callback);
             callback(root -> value);
             RNL(root->left, callback);
         }
     }
-    std::string ToString(std::function<void(std::function<void(T)>)> Traversal) {
-        std::ostringstream str;
-        Traversal([&str](T a){
-           str << a;
-        });
-        return str.str();
-    }
-    BinarySearchTree<T> map(std::function<T(T)> changing) {
+    BinarySearchTree<T> map(std::function<T(const T &)> changing) {
         BinarySearchTree<T> tree;
-        WidthTraversal([tree, changing](T a) {
+        WidthTraversal([&tree, changing](const T & a) {
             tree.Put(changing(a));
         });
         return tree;
     }
-    BinarySearchTree<T> where(std::function<bool(T)> filter) {
+    BinarySearchTree<T> where(std::function<bool(const T &)> filter) {
         BinarySearchTree<T> tree;
-        WidthTraversal([tree, filter](T a) {
+        WidthTraversal([&tree, filter](const T & a) {
             if (filter(a)) {
                 tree.Put(a);
             }
         });
         return tree;
     }
-    void Put(const T & element) const{
-        if (root != nullptr) {
-            Node *tmp = root;
-            while (true) {
-                if (tmp->value > element) {
-                    if (tmp->left == nullptr) {
-                        tmp->left = new Node(element);
-                        break;
-                    } else {
-                        tmp = tmp->left;
-                    }
-                } else if (tmp->value < element) {
-                    if (tmp->right == nullptr) {
-                        tmp->right = new Node(element);
-                        break;
-                    } else {
-                        tmp = tmp->right;
-                    }
-                } else {
-                    break;
-                }
-            }
-        }
-        else {
-            root = new Node(element);
-        }
-    }
-    void Put(T element){
+    void Put(const T & element){
         if (root != nullptr) {
             Node *tmp = root;
             while (true) {
@@ -317,7 +283,7 @@ public:
                     break;
                 }
             }
-            return BinarySearchTree<T>(tmp_tree.map);
+            return BinarySearchTree<T>(tmp_tree);
         }
         else {
             throw std::out_of_range("HaveNoElement");
@@ -359,7 +325,7 @@ public:
             return false;
         }
     }
-    void Merge(BinarySearchTree<T> tree) {
+    void Merge(const BinarySearchTree<T> & tree) {
         tree.WidthTraversal([this](T a) {
             (*this).Put(a);
         });

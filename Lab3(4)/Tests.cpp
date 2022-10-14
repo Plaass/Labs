@@ -31,15 +31,20 @@ int main() {
     std::cout << "tree.RLN(): ";
     tree.RLN();
     std::cout << std::endl;
-    //std::cout << "tree.ToString(): " << tree.ToString(tree.LNR()) << std::endl;
-    //std::cout << "tree.WidthTraversal().map([](int a){a /= 2; return a;}: ";
-    //tree.map([](int a){
-    //    a /= 2;
-    //    return a;
-    //});
-    //std::cout << "tree.WidthTraversal().filter([](int a){a %= 2; return (bool)a;}: ";
-    //tree.where([](int a){
-    //    a %= 2;
-    //    return (bool)a;
-    //});
+    std::cout << "tree.map([](int a){return a/2;}).WidthTraversal(): ";
+    tree.map([](const int & a){
+        return a / 2;
+    }).WidthTraversal();
+    std::cout << std::endl;
+    std::cout << "tree.filter([](int a){(bool)(a %= 2);}).WidthTraversal(): ";
+    tree.where([](const int & a){
+        return (bool)(a%2);
+    }).WidthTraversal();
+    std::cout << "tree.Put(100): ";
+    tree.Put(100);
+    tree.WidthTraversal();
+    std::cout << std::endl;
+    std::cout << "tree.Search(100) tree.Search(0): " << tree.Search(100) << " " << tree.Search(0) << std::endl;
+    std::cout << "tree.GetSubTree(100) and tree.GetSubTree(0): ";
+    tree.GetSubTree(100);
 }
