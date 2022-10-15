@@ -263,7 +263,7 @@ public:
         return flag;
     }
     BinarySearchTree<T> GetSubTree(const T & element) {
-        Node* sub_root = new Node();
+        Node* sub_root;
         if (Search(element)) {
             Node* tmp = root;
             while (true) {
@@ -287,9 +287,7 @@ public:
             BinarySearchTree<T> tree;
             BinarySearchTree<T> treeR;
             tree.root = sub_root;
-            tree.WidthTraversal( [&treeR](const T & a){
-                treeR.Put(a);
-            });
+            treeR = tree;
             return treeR;
         }
     }
