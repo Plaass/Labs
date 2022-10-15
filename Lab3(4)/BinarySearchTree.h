@@ -242,6 +242,7 @@ public:
     bool Search(const T & element) {
         bool flag = false;
         Node* tmp = root;
+        if (root == nullptr) return false;
         while (!flag) {
             if (element < tmp ->value) {
                 if (tmp->left != nullptr) {
@@ -262,7 +263,7 @@ public:
         return flag;
     }
     BinarySearchTree<T> GetSubTree(const T & element) {
-        Node* sub_root;
+        Node* sub_root = new Node();
         if (Search(element)) {
             Node* tmp = root;
             while (true) {
