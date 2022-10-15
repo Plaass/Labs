@@ -263,7 +263,7 @@ public:
         return flag;
     }
     BinarySearchTree<T> GetSubTree(const T & element) {
-        Node* sub_root;
+        Node* sub_root = new Node();
         if (Search(element)) {
             Node* tmp = root;
             while (true) {
