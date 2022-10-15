@@ -14,6 +14,7 @@ private:
         Node* left;
         Node* right;
         T value;
+        Node(): left(nullptr), right(nullptr), value(0) {};
         explicit Node(T element): left(nullptr), right(nullptr), value(element) {};
     };
     Node* root;
@@ -23,7 +24,7 @@ public:
         delete [] root;
     }
     BinarySearchTree(const BinarySearchTree<T> & tree) {
-        Node* tmp;
+        Node* tmp = new Node();
         delete [] root;
         root = nullptr;
         tree.WidthTraversal([this](const T & a) {
@@ -39,7 +40,7 @@ public:
         return *this;
     }
     void WidthTraversal(std::function<void(const T &)> callback = [](const T & a){std::cout << a << " ";}) const {
-        Node* tmp;
+        Node* tmp = new Node();
         Queue<Node*> queue = Queue<Node*>();
         queue.Put(root);
         while (tmp != nullptr) {
