@@ -260,6 +260,36 @@ public:
         }
         return flag;
     }
+private:
+    Node* Search_for_node(const T & element) {
+        if (root == nullptr) return false;
+        Node* tmp = root;
+        while (true) {
+            if (element < tmp ->value) {
+                if (tmp->left != nullptr) {
+                    tmp = tmp->left;
+                }
+                else {
+                    tmp = nullptr;
+                    break;
+                }
+            }
+            else if (element > tmp ->value) {
+                if (tmp->right != nullptr) {
+                    tmp = tmp->right;
+                }
+                else {
+                    tmp = nullptr;
+                    break;
+                }
+            }
+            else if (element == tmp ->value) {
+                break;
+            }
+        }
+        return tmp;
+    }
+public:
     BinarySearchTree<T> GetSubTree(const T & element) {
         Node *sub_root = root;
         if (!Search(element)) {
@@ -284,6 +314,7 @@ public:
         BinarySearchTree<T> treeR;
         tree.root = sub_root;
         treeR = tree;
+        tree.root = nullptr;
         return treeR;
     }
     bool SearchSubTree(const BinarySearchTree<T> & subtree) {

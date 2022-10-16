@@ -61,8 +61,9 @@ int main() {
     std::cout << tree.SearchSubTree(tree2) << " and ";
     tree2 = tree.GetSubTree(0);
     std::cout << tree.SearchSubTree(tree2) << std::endl;
-    std::cout << "tree.Merge(tree.GetSubTree(100)): ";
-    tree.Merge(tree.GetSubTree(100));
+    std::cout << "tree.Merge(Tree onlu with 0 in root): ";
+    tree2.Put(0);
+    tree.Merge(tree2);
     tree.WidthTraversal();
     std::cout << std::endl;
     std::cout << "tree.GetRoot(): " << tree.GetRoot() << std::endl;
