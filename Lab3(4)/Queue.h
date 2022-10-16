@@ -32,9 +32,7 @@ public:
     };
     T Pop() {
         if (head -> next == nullptr) return nullptr;
-        Node* tmp = head;
         head = head -> next;
-        delete [] tmp;
         return head -> value;
     }
 };

@@ -14,7 +14,7 @@ private:
         Node* left;
         Node* right;
         T value;
-        Node(): left(nullptr), right(nullptr), value(0) {};
+        Node(): left(nullptr), right(nullptr), value(1) {};
         explicit Node(T element): left(nullptr), right(nullptr), value(element) {};
     };
     Node* root;
@@ -24,15 +24,12 @@ public:
         delete [] root;
     }
     BinarySearchTree(const BinarySearchTree<T> & tree) {
-        Node* tmp = new Node();
-        delete [] root;
         root = nullptr;
         tree.WidthTraversal([this](const T & a) {
             this->Put(a);
         });
     }
     BinarySearchTree<T> & operator=(const BinarySearchTree<T> & tree) {
-        delete [] root;
         root = nullptr;
         tree.WidthTraversal([this](const T & a) {
             this->Put(a);
@@ -241,9 +238,9 @@ public:
         }
     }
     bool Search(const T & element) {
+        if (root == nullptr) return false;
         bool flag = false;
         Node* tmp = root;
-        if (root == nullptr) return false;
         while (!flag) {
             if (element < tmp ->value) {
                 if (tmp->left != nullptr) {
@@ -264,35 +261,33 @@ public:
         return flag;
     }
     BinarySearchTree<T> GetSubTree(const T & element) {
-        Node* sub_root = new Node();
-        if (Search(element)) {
-            Node* tmp = root;
-            while (true) {
-                if (element < tmp ->value) {
-                    if (tmp->left != nullptr) {
-                        tmp = tmp->left;
-                    }
-                    else break;
-                }
-                else if (element > tmp ->value) {
-                    if (tmp->right != nullptr) {
-                        tmp = tmp->right;
-                    }
-                    else break;
-                }
-                else if (element == tmp ->value) {
-                    sub_root = tmp;
-                    break;
-                }
-            }
-            BinarySearchTree<T> tree;
-            BinarySearchTree<T> treeR;
-            tree.root = sub_root;
-            treeR = tree;
-            return treeR;
+        Node *sub_root = root;
+        if (!Search(element)) {
+            return BinarySearchTree<T>();
         }
+        Node *tmp = root;
+        while (true) {
+            if (element < tmp->value) {
+                if (tmp->left != nullptr) {
+                    tmp = tmp->left;
+                } else break;
+            } else if (element > tmp->value) {
+                if (tmp->right != nullptr) {
+                    tmp = tmp->right;
+                } else break;
+            } else if (element == tmp->value) {
+                sub_root = tmp;
+                break;
+            }
+        }
+        BinarySearchTree<T> tree;
+        BinarySearchTree<T> treeR;
+        tree.root = sub_root;
+        treeR = tree;
+        return treeR;
     }
     bool SearchSubTree(const BinarySearchTree<T> & subtree) {
+        if (subtree.root == nullptr) return false;
         if (Search(subtree.root->value)) {
             BinarySearchTree<T> tree = GetSubTree(subtree.root->value);
             Node* tmp_Verifiable;

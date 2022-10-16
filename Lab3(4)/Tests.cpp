@@ -50,13 +50,17 @@ int main() {
     std::cout << std::endl;
     std::cout << "tree.Search(100) tree.Search(0): " << tree.Search(100) << " " << tree.Search(0) << std::endl;
     std::cout << "tree.GetSubTree(100) and tree.GetSubTree(0): ";
-    tree2 = tree.GetSubTree(100); //?
+    tree2 = tree.GetSubTree(100);
     tree2.WidthTraversal();
     std::cout << " and ";
     tree2 = tree.GetSubTree(0);
     tree2.WidthTraversal();
     std::cout << std::endl;
-    std::cout << "tree.SearchSubTree(tree.GetSubTree(100)) and tree.SearchSubTree(tree.GetSubTree(0)): " << tree.SearchSubTree(tree.GetSubTree(100)) << " and " << tree.SearchSubTree(tree.GetSubTree(0)) << std::endl;
+    std::cout << "tree.SearchSubTree(tree.GetSubTree(100)) and tree.SearchSubTree(tree.GetSubTree(0)): ";
+    tree2 = tree.GetSubTree(100);
+    std::cout << tree.SearchSubTree(tree2) << " and ";
+    tree2 = tree.GetSubTree(0);
+    std::cout << tree.SearchSubTree(tree2) << std::endl;
     std::cout << "tree.Merge(tree.GetSubTree(100)): ";
     tree.Merge(tree.GetSubTree(100));
     tree.WidthTraversal();
