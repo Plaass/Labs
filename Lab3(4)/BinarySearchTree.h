@@ -54,9 +54,7 @@ public:
         }
     }
     bool CheckingSearching() {
-        bool flag = true;
-        CheckingSearching(nullptr, nullptr, root, flag);
-        return flag;
+        return CheckingSearching(nullptr, nullptr, root);
     }
     void read(const std::istringstream & in) {
         T element;
@@ -66,48 +64,25 @@ public:
         }
     }
 private:
-    void CheckingSearching(Node* left, Node* right, Node* node, bool& flag) {
-        if (left == nullptr && right == nullptr) {
-            if (node -> left != nullptr) {
-                CheckingSearching(nullptr, node, node->left, flag);
-            }
-            if (node -> right != nullptr) {
-                CheckingSearching(node, nullptr, node->right, flag);
-            }
+    bool CheckingSearching(Node* left, Node* right, Node* node) {
+        if (node == nullptr) {
+            return true;
+        }
+        else if (left == nullptr && right == nullptr) {
+
         }
         else if (left == nullptr) {
-            if (node -> value > right -> value) {
-                flag = false;
-            }
-            if (node -> left != nullptr) {
-                CheckingSearching(nullptr, node, node->left, flag);
-            }
-            if (node -> right != nullptr) {
-                CheckingSearching(node, right, node->right, flag);
+            if (right->value < node->value) {
+                return false;
             }
         }
         else if (right == nullptr) {
-            if (node -> value < left -> value) {
-                flag = false;
-            }
-            if (node -> left != nullptr) {
-                CheckingSearching(left, node, node->left, flag);
-            }
-            if (node -> right != nullptr) {
-                CheckingSearching(node, nullptr, node->right, flag);
+            if (left->value > node->value) {
+                return false;
             }
         }
-        else {
-            if (node -> value < left -> value || node -> value > right -> value) {
-                flag = false;
-            }
-            if (node -> left != nullptr) {
-                CheckingSearching(left, node, node->left, flag);
-            }
-            if (node -> right != nullptr) {
-                CheckingSearching(node, right, node->right, flag);
-            }
-        }
+        return CheckingSearching(left, node->value, node->left) &&
+        CheckingSearching(node->value, right, node->right);
     }
     void LNR (Node* node, std::function<void(const T &)> callback = [](const T & a){std::cout << a << " ";}) {
         if (node != nullptr) {
