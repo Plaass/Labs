@@ -67,6 +67,7 @@ private:
     bool CheckingSearching(Node* left, Node* right, Node* node) {
         if (node == nullptr) {
             return true;
+
         }
         else if (left == nullptr && right == nullptr) {
 
