@@ -68,11 +68,11 @@ public:
 private:
     void CheckingSearching(Node* left, Node* right, Node* node, bool& flag) {
         if (left == nullptr && right == nullptr) {
-            if (root -> left != nullptr) {
-                CheckingSearching(nullptr, root, root->left, flag);
+            if (node -> left != nullptr) {
+                CheckingSearching(nullptr, node, node->left, flag);
             }
-            if (root -> right != nullptr) {
-                CheckingSearching(root, nullptr, root->right, flag);
+            if (node -> right != nullptr) {
+                CheckingSearching(node, nullptr, node->right, flag);
             }
         }
         else if (left == nullptr) {
@@ -152,42 +152,42 @@ private:
         }
     }
 public:
-    void LNR (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
+    void LNR (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) const {
         if (root != nullptr) {
             LNR(root->left, callback);
             callback(root -> value);
             LNR(root->right, callback);
         }
     }
-    void LRN (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
+    void LRN (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) const {
         if (root != nullptr) {
             LRN(root->left, callback);
             LRN(root->right, callback);
             callback(root -> value);
         }
     }
-    void NLR (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
+    void NLR (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) const {
         if (root != nullptr) {
             callback(root -> value);
             NLR(root->left, callback);
             NLR(root->right, callback);
         }
     }
-    void NRL (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
+    void NRL (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) const {
         if (root != nullptr) {
             callback(root -> value);
             NRL(root->right, callback);
             NRL(root->left, callback);
         }
     }
-    void RLN (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
+    void RLN (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) const {
         if (root != nullptr) {
             RLN(root->right, callback);
             RLN(root->left, callback);
             callback(root -> value);
         }
     }
-    void RNL (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) {
+    void RNL (std::function<void(const T &)> callback = [](T a){std::cout << a << " ";}) const {
         if (root != nullptr) {
             RNL(root->right, callback);
             callback(root -> value);
@@ -262,7 +262,7 @@ public:
     }
 private:
     Node* Search_for_node(const T & element) {
-        if (root == nullptr) return false;
+        if (root == nullptr) return nullptr;
         Node* tmp = root;
         while (true) {
             if (element < tmp ->value) {
@@ -291,24 +291,9 @@ private:
     }
 public:
     BinarySearchTree<T> GetSubTree(const T & element) {
-        Node *sub_root = root;
-        if (!Search(element)) {
+        Node *sub_root = Search_for_node(element);
+        if (sub_root== nullptr) {
             return BinarySearchTree<T>();
-        }
-        Node *tmp = root;
-        while (true) {
-            if (element < tmp->value) {
-                if (tmp->left != nullptr) {
-                    tmp = tmp->left;
-                } else break;
-            } else if (element > tmp->value) {
-                if (tmp->right != nullptr) {
-                    tmp = tmp->right;
-                } else break;
-            } else if (element == tmp->value) {
-                sub_root = tmp;
-                break;
-            }
         }
         BinarySearchTree<T> tree;
         BinarySearchTree<T> treeR;
@@ -327,9 +312,9 @@ public:
             Queue<Node*> queue_Verifier= Queue<Node*>();
             queue_Verifiable.Put(subtree.root);
             queue_Verifier.Put(tree.root);
-            while (tmp_Verifiable == tmp_Verifier) {
-                tmp_Verifier = queue_Verifier.Pop();
-                tmp_Verifiable = queue_Verifiable.Pop();
+            tmp_Verifier = queue_Verifier.Pop();
+            tmp_Verifiable = queue_Verifiable.Pop();
+            while (tmp_Verifiable -> value == tmp_Verifier -> value) {
                 if (tmp_Verifier != nullptr && tmp_Verifiable != nullptr) {
                     if (tmp_Verifier -> right != nullptr) {
                         queue_Verifier.Put(tmp_Verifier -> right);
@@ -344,7 +329,9 @@ public:
                         queue_Verifiable.Put(tmp_Verifiable -> left);
                     }
                 }
-                else if (tmp_Verifier == nullptr && tmp_Verifiable == nullptr) {
+                tmp_Verifier = queue_Verifier.Pop();
+                tmp_Verifiable = queue_Verifiable.Pop();
+                if (tmp_Verifier == nullptr && tmp_Verifiable == nullptr) {
                     return true;
                 }
             }
